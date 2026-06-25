@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, LogIn, AlertCircle, ArrowRight, Terminal } from 'lucide-react';
+import { Mail, Lock, LogIn, AlertCircle, ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 
 const LoginPage = () => {
@@ -59,7 +59,7 @@ const LoginPage = () => {
       >
         {/* Header */}
         <div class="text-center space-y-2">
-          <h2 class="text-2xl font-bold tracking-tight text-white font-sans">
+          <h2 class="text-2xl font-bold tracking-tight text-zinc-900 font-sans">
             Welcome back
           </h2>
           <p class="text-xs text-zinc-500 font-mono">
@@ -68,13 +68,13 @@ const LoginPage = () => {
         </div>
 
         {/* Card */}
-        <div class="saas-card bg-[#121214] border-zinc-800 p-8 shadow-xl">
+        <div class="saas-card bg-white border-zinc-200 p-8 shadow-xl">
 
           {error && (
             <motion.div 
               initial={{ x: -4, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              class="mb-6 p-3 bg-rose-950/10 border border-rose-500/10 rounded flex items-start gap-2 text-rose-450 font-mono text-[11px]"
+              class="mb-6 p-3 bg-rose-50 border border-rose-200 rounded flex items-start gap-2 text-rose-600 font-mono text-[11px]"
             >
               <AlertCircle class="w-4 h-4 shrink-0 mt-0.5" />
               <span>{error}</span>
@@ -84,11 +84,11 @@ const LoginPage = () => {
           <form class="space-y-5" onSubmit={handleSubmit}>
             {/* Username/Email Input */}
             <div class="space-y-1.5 font-mono text-xs">
-              <label htmlFor="emailOrUsername" class="font-semibold text-zinc-400 uppercase tracking-wide">
+              <label htmlFor="emailOrUsername" class="font-semibold text-zinc-500 uppercase tracking-wide">
                 Email or Username
               </label>
               <div class="relative">
-                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-600">
+                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
                   <Mail class="w-4 h-4" />
                 </div>
                 <input
@@ -106,11 +106,11 @@ const LoginPage = () => {
 
             {/* Password Input */}
             <div class="space-y-1.5 font-mono text-xs">
-              <label htmlFor="password" class="font-semibold text-zinc-400 uppercase tracking-wide">
+              <label htmlFor="password" class="font-semibold text-zinc-500 uppercase tracking-wide">
                 Password
               </label>
               <div class="relative">
-                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-600">
+                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
                   <Lock class="w-4 h-4" />
                 </div>
                 <input
@@ -130,10 +130,10 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading}
-              class="w-full saas-btn-primary py-3 flex items-center justify-center gap-2 group text-xs font-semibold font-mono mt-2"
+              class="w-full saas-btn-primary py-3 flex items-center justify-center gap-2 group text-xs font-semibold font-sans mt-2"
             >
               {loading ? (
-                <div class="w-4 h-4 border-2 border-zinc-950/30 border-t-zinc-950 rounded-full animate-spin"></div>
+                <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <>
                   <LogIn class="w-4 h-4" />
@@ -145,9 +145,9 @@ const LoginPage = () => {
           </form>
 
           {/* Footer */}
-          <div class="mt-8 pt-6 border-t border-zinc-800/80 text-center text-xs text-zinc-500 font-mono">
+          <div class="mt-8 pt-6 border-t border-zinc-200 text-center text-xs text-zinc-500 font-mono">
             New developer?{' '}
-            <Link to="/signup" class="text-zinc-350 hover:text-white font-semibold transition-colors">
+            <Link to="/signup" class="text-zinc-650 hover:text-zinc-900 font-semibold transition-colors">
               Create an account
             </Link>
           </div>

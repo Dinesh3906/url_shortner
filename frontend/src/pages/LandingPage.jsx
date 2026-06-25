@@ -131,16 +131,16 @@ const LandingPage = () => {
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10b981]/5 border border-[#10b981]/15 text-[#10b981] font-mono text-[10px] uppercase tracking-wider">
             <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse"></span>
             <span class="text-[#10b981]/90 font-semibold font-mono">URL Infrastructure</span>
-            <span class="text-zinc-700">|</span>
-            <span class="text-zinc-400 font-sans">Built for speed & scale</span>
+            <span class="text-zinc-300">|</span>
+            <span class="text-zinc-500 font-sans">Built for speed & scale</span>
           </div>
 
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-zinc-900 leading-[1.08]">
             Short links.<br />
             Real impact.
           </h1>
 
-          <p class="text-sm sm:text-base text-zinc-400 max-w-lg leading-relaxed">
+          <p class="text-sm sm:text-base text-zinc-600 max-w-lg leading-relaxed">
             ShortLink is the developer-friendly URL shortener trusted by thousands of teams to build, scale, and analyze links that drive results.
           </p>
 
@@ -155,7 +155,7 @@ const LandingPage = () => {
                 <Link to="/signup" class="px-5 py-2.5 bg-[#4f46e5] hover:bg-[#5f56f3] text-white font-semibold text-xs rounded-lg transition-all flex items-center gap-1.5 shadow-sm shadow-[#4f46e5]/10">
                   Get started for free
                 </Link>
-                <Link to="/login" class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white font-semibold text-xs rounded-lg border border-zinc-800/80 transition-all">
+                <Link to="/login" class="px-5 py-2.5 bg-white hover:bg-zinc-50 text-zinc-700 hover:text-zinc-900 font-semibold text-xs rounded-lg border border-zinc-200 transition-all">
                   View API docs
                 </Link>
               </>
@@ -165,12 +165,12 @@ const LandingPage = () => {
 
         {/* Right Side: Mockup Link Shortener Widget */}
         <div class="lg:col-span-6">
-          <div class="saas-card bg-[#121624] border-zinc-800/80 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+          <div class="saas-card shadow-lg p-6 sm:p-8 relative overflow-hidden">
             <form onSubmit={handleSubmit} class="space-y-4">
-              <div class="border border-zinc-800 bg-[#0b0e17] rounded-xl p-4 focus-within:border-zinc-700/85 transition-all space-y-3">
+              <div class="border border-zinc-200 bg-zinc-50 rounded-xl p-4 focus-within:border-zinc-350/85 transition-all space-y-3">
                 <div class="flex items-center justify-between">
                   <div class="flex items-center gap-2.5 grow min-w-0">
-                    <Link2 class="w-4 h-4 text-zinc-550 shrink-0" />
+                    <Link2 class="w-4 h-4 text-zinc-400 shrink-0" />
                     <input
                       type="text"
                       placeholder="Paste your long URL"
@@ -179,7 +179,7 @@ const LandingPage = () => {
                         setOriginalUrl(e.target.value);
                         setError('');
                       }}
-                      class="bg-transparent border-0 p-0 text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-0 w-full"
+                      class="bg-transparent border-0 p-0 text-zinc-900 placeholder-zinc-400 text-sm focus:outline-none focus:ring-0 w-full"
                     />
                   </div>
                   <button
@@ -203,7 +203,6 @@ const LandingPage = () => {
               </div>
 
               {/* Collapsible Expiration Picker */}
-              {/* Extra features: Expiry and Custom Name */}
               <div class="flex flex-wrap items-center gap-4 px-1">
                 
                 {/* Expiration Picker */}
@@ -212,20 +211,20 @@ const LandingPage = () => {
                     <button
                       type="button"
                       onClick={() => setShowExpiry(true)}
-                      class="text-[10px] text-zinc-500 hover:text-zinc-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+                      class="text-[10px] text-zinc-500 hover:text-zinc-700 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
                     >
-                      <Clock class="w-3 h-3 text-zinc-550" />
+                      <Clock class="w-3 h-3 text-zinc-400" />
                       Add expiration date
                     </button>
                   ) : (
-                    <div class="flex items-center gap-2 text-[10px] text-zinc-450">
-                      <Clock class="w-3 h-3 text-zinc-500" />
+                    <div class="flex items-center gap-2 text-[10px] text-zinc-500">
+                      <Clock class="w-3 h-3 text-zinc-400" />
                       <span>Expires:</span>
                       <input
                         type="datetime-local"
                         value={expiresAt}
                         onChange={(e) => setExpiresAt(e.target.value)}
-                        class="bg-[#0b0e17] border border-zinc-800 text-zinc-300 rounded-md px-2 py-0.5 focus:outline-none text-[9px] cursor-pointer"
+                        class="bg-white border border-zinc-200 text-zinc-800 rounded-md px-2 py-0.5 focus:outline-none text-[9px] cursor-pointer"
                       />
                       <button
                         type="button"
@@ -233,7 +232,7 @@ const LandingPage = () => {
                           setShowExpiry(false);
                           setExpiresAt('');
                         }}
-                        class="text-zinc-500 hover:text-zinc-350 ml-1 text-xs cursor-pointer"
+                        class="text-zinc-500 hover:text-zinc-700 ml-1 text-xs cursor-pointer"
                       >
                         ✕
                       </button>
@@ -247,21 +246,21 @@ const LandingPage = () => {
                     <button
                       type="button"
                       onClick={() => setShowCustom(true)}
-                      class="text-[10px] text-zinc-500 hover:text-zinc-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+                      class="text-[10px] text-zinc-500 hover:text-zinc-700 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
                     >
-                      <Link2 class="w-3 h-3 text-zinc-550" />
+                      <Link2 class="w-3 h-3 text-zinc-400" />
                       Add custom name
                     </button>
                   ) : (
-                    <div class="flex items-center gap-2 text-[10px] text-zinc-450">
-                      <Link2 class="w-3 h-3 text-zinc-500" />
+                    <div class="flex items-center gap-2 text-[10px] text-zinc-500">
+                      <Link2 class="w-3 h-3 text-zinc-400" />
                       <span>Custom Name:</span>
                       <input
                         type="text"
                         placeholder="my-alias"
                         value={customAlias}
                         onChange={(e) => setCustomAlias(e.target.value)}
-                        class="bg-[#0b0e17] border border-zinc-805 text-zinc-300 rounded-md px-2 py-0.5 focus:outline-none text-[10px] placeholder-zinc-650 w-28"
+                        class="bg-white border border-zinc-200 text-zinc-800 rounded-md px-2 py-0.5 focus:outline-none text-[10px] placeholder-zinc-400 w-28"
                       />
                       <button
                         type="button"
@@ -269,7 +268,7 @@ const LandingPage = () => {
                           setShowCustom(false);
                           setCustomAlias('');
                         }}
-                        class="text-zinc-500 hover:text-zinc-350 ml-1 text-xs cursor-pointer"
+                        class="text-zinc-500 hover:text-zinc-700 ml-1 text-xs cursor-pointer"
                       >
                         ✕
                       </button>
@@ -281,13 +280,13 @@ const LandingPage = () => {
             </form>
 
             {error && (
-              <div class="mt-4 p-3 bg-rose-500/5 border border-rose-500/10 text-rose-455 rounded-lg text-xs text-left font-mono">
+              <div class="mt-4 p-3 bg-rose-50 border border-rose-200 text-rose-600 rounded-lg text-xs text-left font-mono">
                 {error}
               </div>
             )}
 
             {/* Horizontal Separator */}
-            <div class="border-t border-zinc-800/80 my-6"></div>
+            <div class="border-t border-zinc-200/80 my-6"></div>
 
             {/* Output Display Container */}
             <div class="space-y-4 text-left">
@@ -295,13 +294,13 @@ const LandingPage = () => {
                 Your short link
               </div>
 
-              <div class="flex items-center justify-between bg-[#0b0e17] border border-zinc-800/80 rounded-xl p-3 sm:p-4 gap-3">
+              <div class="flex items-center justify-between bg-zinc-50 border border-zinc-200 rounded-xl p-3 sm:p-4 gap-3">
                 <div class="flex items-center gap-2 min-w-0">
-                  <span class="text-sm font-semibold text-zinc-200 truncate select-all font-mono">
+                  <span class="text-sm font-semibold text-zinc-800 truncate select-all font-mono">
                     {displayedShortUrl}
                   </span>
                   {copied && (
-                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-450 shrink-0">
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-semibold bg-emerald-50 border border-emerald-200 text-emerald-600 shrink-0">
                       Copied!
                     </span>
                   )}
@@ -311,7 +310,7 @@ const LandingPage = () => {
                   <button
                     type="button"
                     onClick={handleCopy}
-                    class="p-2 bg-[#121624] hover:bg-zinc-850 text-zinc-400 hover:text-white rounded-lg border border-zinc-800/80 transition-colors cursor-pointer"
+                    class="p-2 bg-white hover:bg-zinc-50 text-zinc-500 hover:text-zinc-800 rounded-lg border border-zinc-200/80 transition-colors cursor-pointer"
                     title="Copy URL"
                   >
                     <Copy class="w-3.5 h-3.5" />
@@ -322,8 +321,8 @@ const LandingPage = () => {
                     onClick={() => setShowQr(!showQr)}
                     class={`p-2 rounded-lg border transition-colors cursor-pointer ${
                       showQr 
-                        ? 'bg-zinc-800 border-zinc-700 text-white' 
-                        : 'bg-[#121624] border-zinc-800/80 text-zinc-400 hover:text-white hover:bg-zinc-850'
+                        ? 'bg-zinc-100 border-zinc-300 text-zinc-900' 
+                        : 'bg-white border-zinc-200/80 text-zinc-500 hover:text-zinc-800 hover:bg-zinc-50'
                     }`}
                     title="QR Code"
                   >
@@ -333,7 +332,7 @@ const LandingPage = () => {
                   <button
                     type="button"
                     onClick={handleShare}
-                    class="p-2 bg-[#121624] hover:bg-zinc-850 text-zinc-400 hover:text-white rounded-lg border border-zinc-800/80 transition-colors cursor-pointer"
+                    class="p-2 bg-white hover:bg-zinc-50 text-zinc-500 hover:text-zinc-800 rounded-lg border border-zinc-200/80 transition-colors cursor-pointer"
                     title="Share link"
                   >
                     <Share2 class="w-3.5 h-3.5" />
@@ -350,8 +349,8 @@ const LandingPage = () => {
                     exit={{ opacity: 0, height: 0 }}
                     class="overflow-hidden"
                   >
-                    <div class="mt-2 p-4 bg-[#0b0e17] border border-zinc-800/80 rounded-xl flex flex-col items-center justify-center gap-3 text-center">
-                      <div class="bg-white p-2 rounded-lg">
+                    <div class="mt-2 p-4 bg-zinc-50 border border-zinc-200/80 rounded-xl flex flex-col items-center justify-center gap-3 text-center">
+                      <div class="bg-white p-2 rounded-lg border border-zinc-100">
                         <img
                           src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
                             shortenedResult ? shortenedResult.shortUrl : 'https://short.link/a8f3Kp'
@@ -370,18 +369,18 @@ const LandingPage = () => {
               <div class="grid grid-cols-2 gap-4 pt-2">
                 <div>
                   <div class="text-[10px] text-zinc-500 uppercase tracking-wider mb-0.5">Clicks</div>
-                  <div class="text-sm font-bold text-zinc-200">{displayedClicks}</div>
+                  <div class="text-sm font-bold text-zinc-800">{displayedClicks}</div>
                 </div>
                 <div>
                   <div class="text-[10px] text-zinc-500 uppercase tracking-wider mb-0.5">Created</div>
-                  <div class="text-sm font-bold text-zinc-200">{displayedCreated}</div>
+                  <div class="text-sm font-bold text-zinc-800">{displayedCreated}</div>
                 </div>
               </div>
 
               {/* Dashboard Note for Anon Users */}
               {!isAuthenticated && !shortenedResult && (
-                <div class="text-[10px] text-zinc-500 border-t border-zinc-800/50 pt-3">
-                  Note: <Link to="/signup" class="text-zinc-400 hover:text-white underline">Sign up</Link> to save this link permanently, customize links, and unlock deep traffic logs.
+                <div class="text-[10px] text-zinc-500 border-t border-zinc-200/80 pt-3">
+                  Note: <Link to="/signup" class="text-zinc-600 hover:text-zinc-900 underline">Sign up</Link> to save this link permanently, customize links, and unlock deep traffic logs.
                 </div>
               )}
             </div>
@@ -391,50 +390,50 @@ const LandingPage = () => {
       </div>
 
       {/* Feature Section: Redesigned Horizontal Card */}
-      <div class="w-full bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-6 md:p-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 md:divide-x md:divide-zinc-800/50">
+      <div class="w-full bg-white border border-zinc-200/80 rounded-2xl p-6 md:p-8 shadow-sm">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 md:divide-x md:divide-zinc-200/50">
           
           {/* Feature 1 */}
           <div class="flex gap-4 md:px-4">
-            <div class="w-8 h-8 rounded-lg bg-[#10b981]/10 border border-[#10b981]/20 flex items-center justify-center shrink-0 mt-0.5">
+            <div class="w-8 h-8 rounded-lg bg-[#10b981]/5 border border-[#10b981]/15 flex items-center justify-center shrink-0 mt-0.5">
               <Zap class="w-4 h-4 text-[#10b981]" />
             </div>
             <div>
-              <h4 class="text-xs font-bold text-white mb-1 font-sans">Blazing fast</h4>
-              <p class="text-[11px] text-zinc-400 leading-normal">Sub-15ms redirects powered by edge caching.</p>
+              <h4 class="text-xs font-bold text-zinc-800 mb-1 font-sans">Blazing fast</h4>
+              <p class="text-[11px] text-zinc-500 leading-normal">Sub-15ms redirects powered by edge caching.</p>
             </div>
           </div>
           
           {/* Feature 2 */}
           <div class="flex gap-4 md:px-4">
-            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center shrink-0 mt-0.5">
-              <Shield class="w-4 h-4 text-indigo-400" />
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/5 border border-[#4f46e5]/15 flex items-center justify-center shrink-0 mt-0.5">
+              <Shield class="w-4 h-4 text-indigo-500" />
             </div>
             <div>
-              <h4 class="text-xs font-bold text-white mb-1 font-sans">Reliable</h4>
-              <p class="text-[11px] text-zinc-400 leading-normal">99.99% uptime with global infrastructure.</p>
+              <h4 class="text-xs font-bold text-zinc-800 mb-1 font-sans">Reliable</h4>
+              <p class="text-[11px] text-zinc-500 leading-normal">99.99% uptime with global infrastructure.</p>
             </div>
           </div>
           
           {/* Feature 3 */}
           <div class="flex gap-4 md:px-4">
-            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center shrink-0 mt-0.5">
-              <BarChart3 class="w-4 h-4 text-indigo-400" />
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/5 border border-[#4f46e5]/15 flex items-center justify-center shrink-0 mt-0.5">
+              <BarChart3 class="w-4 h-4 text-indigo-500" />
             </div>
             <div>
-              <h4 class="text-xs font-bold text-white mb-1 font-sans">Insightful analytics</h4>
-              <p class="text-[11px] text-zinc-400 leading-normal">Track clicks, locations, devices, and more.</p>
+              <h4 class="text-xs font-bold text-zinc-800 mb-1 font-sans">Insightful analytics</h4>
+              <p class="text-[11px] text-zinc-500 leading-normal">Track clicks, locations, devices, and more.</p>
             </div>
           </div>
           
           {/* Feature 4 */}
           <div class="flex gap-4 md:px-4">
-            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center shrink-0 mt-0.5 font-mono text-xs font-bold text-[#4f46e5]">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/5 border border-[#4f46e5]/15 flex items-center justify-center shrink-0 mt-0.5 font-mono text-xs font-bold text-[#4f46e5]">
               &lt;/&gt;
             </div>
             <div>
-              <h4 class="text-xs font-bold text-white mb-1 font-sans">Developer first</h4>
-              <p class="text-[11px] text-zinc-400 leading-normal">Simple API, SDKs, and webhooks.</p>
+              <h4 class="text-xs font-bold text-zinc-800 mb-1 font-sans">Developer first</h4>
+              <p class="text-[11px] text-zinc-500 leading-normal">Simple API, SDKs, and webhooks.</p>
             </div>
           </div>
           
@@ -447,7 +446,7 @@ const LandingPage = () => {
           <div class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
             Trusted by Developers
           </div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-zinc-900">
             Built to handle scale
           </h2>
         </div>
@@ -455,46 +454,46 @@ const LandingPage = () => {
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
           
           {/* Stat 1 */}
-          <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
-            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center">
+          <div class="bg-white border border-zinc-200/80 rounded-2xl p-5 flex flex-col justify-between h-32 shadow-sm hover:border-zinc-300 transition-all">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/5 border border-[#4f46e5]/15 flex items-center justify-center">
               <Link2 class="w-4 h-4 text-[#4f46e5] rotate-45" />
             </div>
             <div>
-              <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">+2.4B</div>
-              <div class="text-[11px] text-zinc-550 font-sans">Links created</div>
+              <div class="text-xl sm:text-2xl font-extrabold text-zinc-900 tracking-tight">+2.4B</div>
+              <div class="text-[11px] text-zinc-500 font-sans">Links created</div>
             </div>
           </div>
 
           {/* Stat 2 */}
-          <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
-            <div class="w-8 h-8 rounded-lg bg-[#10b981]/10 border border-[#10b981]/20 flex items-center justify-center">
+          <div class="bg-white border border-zinc-200/80 rounded-2xl p-5 flex flex-col justify-between h-32 shadow-sm hover:border-zinc-300 transition-all">
+            <div class="w-8 h-8 rounded-lg bg-[#10b981]/5 border border-[#10b981]/15 flex items-center justify-center">
               <BarChart3 class="w-4 h-4 text-[#10b981]" />
             </div>
             <div>
-              <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">+5.6B</div>
-              <div class="text-[11px] text-zinc-550 font-sans">Clicks tracked</div>
+              <div class="text-xl sm:text-2xl font-extrabold text-zinc-900 tracking-tight">+5.6B</div>
+              <div class="text-[11px] text-zinc-500 font-sans">Clicks tracked</div>
             </div>
           </div>
 
           {/* Stat 3 */}
-          <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
-            <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
-              <Globe class="w-4 h-4 text-blue-400" />
+          <div class="bg-white border border-zinc-200/80 rounded-2xl p-5 flex flex-col justify-between h-32 shadow-sm hover:border-zinc-300 transition-all">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/5 border border-blue-500/15 flex items-center justify-center">
+              <Globe class="w-4 h-4 text-blue-500" />
             </div>
             <div>
-              <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">180+</div>
-              <div class="text-[11px] text-zinc-550 font-sans">Countries served</div>
+              <div class="text-xl sm:text-2xl font-extrabold text-zinc-900 tracking-tight">180+</div>
+              <div class="text-[11px] text-zinc-500 font-sans">Countries served</div>
             </div>
           </div>
 
           {/* Stat 4 */}
-          <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
-            <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+          <div class="bg-white border border-zinc-200/80 rounded-2xl p-5 flex flex-col justify-between h-32 shadow-sm hover:border-zinc-300 transition-all">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/5 border border-amber-500/15 flex items-center justify-center">
               <Clock class="w-4 h-4 text-amber-500" />
             </div>
             <div>
-              <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">&lt;15ms</div>
-              <div class="text-[11px] text-zinc-550 font-sans">Avg. redirect time</div>
+              <div class="text-xl sm:text-2xl font-extrabold text-zinc-900 tracking-tight">&lt;15ms</div>
+              <div class="text-[11px] text-zinc-500 font-sans">Avg. redirect time</div>
             </div>
           </div>
 

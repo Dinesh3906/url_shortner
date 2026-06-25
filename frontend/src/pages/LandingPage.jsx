@@ -1,18 +1,22 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link2, Copy, Check, Zap, BarChart3, ShieldCheck, ArrowRight, Clock, HelpCircle } from 'lucide-react';
+import { Link2, Copy, Check, Zap, BarChart3, ShieldCheck, ArrowRight, Clock, QrCode, ArrowUpRight, Terminal } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 
 const LandingPage = () => {
   const { isAuthenticated } = useAuth();
+  const navigate = useNavigate();
   const [originalUrl, setOriginalUrl] = useState('');
   const [expiresAt, setExpiresAt] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [shortenedResult, setShortenedResult] = useState(null);
   const [copied, setCopied] = useState(false);
+  const [showQr, setShowQr] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -24,6 +28,7 @@ const LandingPage = () => {
     setError('');
     setShortenedResult(null);
     setCopied(false);
+    setShowQr(false);
 
     try {
       const response = await axios.post(`${API_URL}/url/shorten`, {
@@ -52,181 +57,288 @@ const LandingPage = () => {
   };
 
   return (
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-20 space-y-24">
-      {/* Hero Section */}
-      <div class="text-center max-w-4xl mx-auto space-y-6">
-        <div class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 text-xs font-semibold uppercase tracking-wider mb-2">
-          <Zap class="w-3.5 h-3.5 fill-indigo-400" />
-          Powered by Redis & Base62
+    <motion.div 
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-20 space-y-24"
+    >
+      
+      {/* Hero Section: Asymmetric Layout */}
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Left Side: Copy & CTAs */}
+        <div class="lg:col-span-7 space-y-6 text-left">
+          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-white/[0.02] border border-white/[0.06] text-slate-400 font-mono text-[10px] uppercase tracking-wider">
+            <Terminal class="w-3.5 h-3.5 text-indigo-500" />
+            Developer-First Redirection
+          </div>
+          
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white leading-[1.1] font-sans">
+            URL infrastructure <br/>
+            <span class="text-indigo-400 font-mono font-medium">built for scale</span>
+          </h1>
+          
+          <p class="text-sm sm:text-base text-slate-400 font-light max-w-xl leading-relaxed">
+            Create, manage and analyze millions of links with a reliable shortening engine powered by caching and real-time analytics.
+          </p>
+
+          <div class="flex flex-wrap items-center gap-3 pt-2">
+            {isAuthenticated ? (
+              <Link to="/dashboard" class="saas-btn-primary flex items-center gap-1.5 font-mono">
+                Go to Console
+                <ArrowRight class="w-4 h-4" />
+              </Link>
+            ) : (
+              <>
+                <Link to="/signup" class="saas-btn-primary flex items-center gap-1.5 font-mono">
+                  Get Started for free
+                  <ArrowRight class="w-4 h-4" />
+                </Link>
+                <a href="#docs" class="saas-btn-secondary font-mono">
+                  Read API Docs
+                </a>
+              </>
+            )}
+          </div>
         </div>
-        <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white leading-none">
-          Shorten Your Links,<br/>
-          <span class="bg-gradient-to-r from-indigo-400 via-blue-500 to-indigo-600 bg-clip-text text-transparent">
-            Accelerate Your Reach
-          </span>
-        </h1>
-        <p class="text-lg sm:text-xl text-slate-400 font-light max-w-2xl mx-auto">
-          ShortLink is a high-performance URL shortener converting long, complex links into clean, secure, and trackable links in milliseconds.
-        </p>
+
+        {/* Right Side: Live Product Preview Card */}
+        <div class="lg:col-span-5">
+          <motion.div 
+            whileHover={{ y: -4 }}
+            transition={{ duration: 0.2 }}
+            class="saas-card relative overflow-hidden bg-white/[0.015] border-white/[0.08]"
+          >
+            {/* Subtle top brand decoration line */}
+            <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent"></div>
+            
+            <div class="flex items-center justify-between border-b border-white/[0.06] pb-3 mb-4">
+              <span class="text-[10px] font-mono uppercase text-slate-500 tracking-wider">Redirection Metrics</span>
+              <div class="flex items-center gap-1.5">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                <span class="text-[10px] font-mono text-emerald-400">Active</span>
+              </div>
+            </div>
+
+            <div class="space-y-4 font-mono text-xs">
+              <div class="space-y-1">
+                <div class="text-[10px] text-slate-500 uppercase">Short URL</div>
+                <div class="text-sm font-semibold text-white">short.ly/x9K2a</div>
+              </div>
+
+              <div class="space-y-1">
+                <div class="text-[10px] text-slate-500 uppercase">Original URL</div>
+                <div class="text-slate-300 break-all">github.com/company/project</div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-4 border-t border-white/[0.04] pt-3">
+                <div class="space-y-0.5">
+                  <div class="text-[10px] text-slate-500 uppercase">Clicks</div>
+                  <div class="text-sm font-bold text-white">24,891</div>
+                </div>
+                <div class="space-y-0.5">
+                  <div class="text-[10px] text-slate-500 uppercase">Latency</div>
+                  <div class="text-sm font-bold text-indigo-400 flex items-center gap-1">
+                    <Zap class="w-3 h-3 fill-indigo-400" />
+                    12ms
+                  </div>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
       </div>
 
-      {/* Shortener Widget */}
-      <div class="max-w-3xl mx-auto">
-        <div class="glass-panel p-6 sm:p-8 rounded-3xl relative shadow-2xl border border-slate-800/80">
-          <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/60 to-transparent"></div>
+      {/* URL Shortener Box (Command-style) */}
+      <div class="max-w-2xl mx-auto">
+        <div class="saas-card relative shadow-2xl bg-white/[0.015] border-white/[0.08] p-5 sm:p-6">
+          <div class="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent"></div>
 
           <form onSubmit={handleSubmit} class="space-y-4">
-            <div class="flex flex-col md:flex-row gap-3">
-              <div class="relative flex-1">
-                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                  <Link2 class="w-5 h-5" />
-                </div>
+            <div class="space-y-1 text-left">
+              <label class="text-[10px] font-mono uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+                <span class="text-indigo-400">🔗</span> paste your long URL
+              </label>
+              <div class="flex flex-col sm:flex-row gap-2">
                 <input
                   type="text"
                   required
-                  placeholder="Paste your long URL here (e.g. https://example.com/deep/path...)"
+                  placeholder="example.com/product/page"
                   value={originalUrl}
                   onChange={(e) => {
                     setOriginalUrl(e.target.value);
                     setError('');
                   }}
-                  class="w-full glass-input pl-11 !py-3.5"
+                  class="flex-1 saas-input !py-2.5 !px-3.5 focus:border-indigo-500/50 text-xs"
                 />
+                <button
+                  type="submit"
+                  disabled={loading}
+                  class="saas-btn-primary !py-2.5 px-4 font-mono text-xs flex items-center justify-center gap-1.5 shrink-0"
+                >
+                  {loading ? (
+                    <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                  ) : (
+                    <>
+                      Generate short link
+                      <ArrowRight class="w-3.5 h-3.5" />
+                    </>
+                  )}
+                </button>
               </div>
-              <button
-                type="submit"
-                disabled={loading}
-                class="btn-primary !py-3.5 md:w-36 flex items-center justify-center gap-2 font-semibold shrink-0"
-              >
-                {loading ? (
-                  <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                ) : (
-                  'Shorten'
-                )}
-              </button>
             </div>
 
-            {/* Optional Expiration Date */}
-            <div class="flex items-center gap-4 pt-1 text-slate-400 text-xs">
-              <span class="flex items-center gap-1.5 font-medium">
-                <Clock class="w-4 h-4 text-slate-500" />
-                Link Expiration (Optional):
+            {/* Optional Expiry Picker */}
+            <div class="flex items-center gap-3 pt-1 text-[10px] font-mono text-slate-500">
+              <span class="flex items-center gap-1">
+                <Clock class="w-3.5 h-3.5" />
+                Expiration Date (Optional):
               </span>
               <input
                 type="datetime-local"
                 value={expiresAt}
                 onChange={(e) => setExpiresAt(e.target.value)}
-                class="bg-slate-900 border border-slate-800 text-slate-300 rounded-lg px-2.5 py-1 focus:border-indigo-500 focus:outline-none transition-colors cursor-pointer"
+                class="bg-black/40 border border-white/[0.06] text-slate-300 rounded-md px-2 py-0.5 focus:outline-none text-[10px] cursor-pointer"
               />
             </div>
           </form>
 
-          {/* Error Alert */}
           {error && (
-            <div class="mt-4 p-4 bg-red-950/20 border border-red-500/20 text-red-400 rounded-2xl text-sm flex items-center gap-2">
-              <span class="font-semibold">Error:</span> {error}
+            <div class="mt-4 p-3 bg-red-950/20 border border-red-500/10 text-red-400 rounded-xl text-xs text-left font-mono">
+              Error: {error}
             </div>
           )}
 
-          {/* Result Output */}
-          {shortenedResult && (
-            <div class="mt-6 p-4 sm:p-5 bg-indigo-950/20 border border-indigo-500/20 rounded-2xl space-y-3 animate-fade-in">
-              <div class="text-xs font-semibold text-indigo-400 uppercase tracking-wider">
-                Your Link is Ready!
-              </div>
-              <div class="flex items-center justify-between gap-3 bg-slate-950/60 border border-slate-800/80 rounded-xl p-3">
-                <span class="text-slate-200 select-all font-medium break-all text-sm sm:text-base pr-2">
-                  {shortenedResult.shortUrl}
-                </span>
-                <button
-                  onClick={handleCopy}
-                  class="p-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-lg transition-all flex items-center gap-1.5 text-xs font-semibold shrink-0"
-                >
-                  {copied ? (
-                    <>
-                      <Check class="w-4 h-4" />
-                      Copied!
-                    </>
-                  ) : (
-                    <>
-                      <Copy class="w-4 h-4" />
-                      Copy
-                    </>
+          {/* Results Output with actions */}
+          <AnimatePresence>
+            {shortenedResult && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                class="mt-6 p-4 bg-indigo-950/10 border border-indigo-500/20 rounded-xl space-y-4 text-left font-mono text-xs"
+              >
+                <div class="flex items-center justify-between">
+                  <span class="text-[10px] text-indigo-400 uppercase tracking-wider font-semibold">Short Link Generated</span>
+                  {shortenedResult.expiresAt && (
+                    <span class="text-[10px] text-yellow-500/80">Expires: {new Date(shortenedResult.expiresAt).toLocaleDateString()}</span>
                   )}
-                </button>
-              </div>
-              <div class="text-xs text-slate-400 flex flex-col sm:flex-row justify-between sm:items-center gap-1 pt-1">
-                <span class="truncate max-w-[280px] sm:max-w-none">Original: {shortenedResult.originalUrl}</span>
-                {shortenedResult.expiresAt && (
-                  <span class="text-yellow-500/90 font-medium">Expires: {new Date(shortenedResult.expiresAt).toLocaleString()}</span>
-                )}
-              </div>
-              {!isAuthenticated && (
-                <div class="pt-2 text-xs text-slate-400 border-t border-slate-800/50">
-                  💡 <Link to="/signup" class="text-indigo-400 font-semibold hover:underline">Sign up</Link> to save this link, delete it, and track click locations & devices!
                 </div>
-              )}
-            </div>
-          )}
+
+                <div class="flex items-center justify-between gap-3 bg-black/60 border border-white/[0.06] rounded-xl p-3">
+                  <span class="text-white select-all font-semibold break-all text-sm">
+                    {shortenedResult.shortUrl}
+                  </span>
+                  
+                  <div class="flex items-center gap-1.5 shrink-0">
+                    {/* Copy */}
+                    <button
+                      onClick={handleCopy}
+                      class="p-2 bg-indigo-600/90 hover:bg-indigo-600 text-white rounded-lg transition-colors flex items-center justify-center"
+                      title="Copy Link"
+                    >
+                      {copied ? <Check class="w-4 h-4 text-emerald-400" /> : <Copy class="w-4 h-4" />}
+                    </button>
+                    {/* QR Code */}
+                    <button
+                      onClick={() => setShowQr(!showQr)}
+                      class={`p-2 rounded-lg transition-colors flex items-center justify-center ${
+                        showQr ? 'bg-indigo-600 text-white' : 'bg-white/[0.04] border border-white/[0.08] text-slate-400 hover:text-white'
+                      }`}
+                      title="QR Code"
+                    >
+                      <QrCode class="w-4 h-4" />
+                    </button>
+                    {/* Analytics */}
+                    {isAuthenticated && (
+                      <button
+                        onClick={() => navigate(`/analytics/${shortenedResult._id}`)}
+                        class="p-2 bg-white/[0.04] border border-white/[0.08] text-slate-400 hover:text-white rounded-lg transition-colors flex items-center justify-center"
+                        title="View Analytics"
+                      >
+                        <ArrowUpRight class="w-4 h-4" />
+                      </button>
+                    )}
+                  </div>
+                </div>
+
+                {/* QR Code Modal/Drawer */}
+                {showQr && (
+                  <motion.div 
+                    initial={{ scale: 0.95, opacity: 0 }}
+                    animate={{ scale: 1, opacity: 1 }}
+                    class="p-4 bg-black/60 border border-white/[0.06] rounded-xl flex flex-col items-center justify-center gap-3 text-center"
+                  >
+                    <div class="bg-white p-2.5 rounded-lg">
+                      <img 
+                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shortenedResult.shortUrl)}`} 
+                        alt="Short link QR code" 
+                        class="w-36 h-36"
+                      />
+                    </div>
+                    <span class="text-[10px] text-slate-500">Scan QR to visit shortened URL</span>
+                  </motion.div>
+                )}
+
+                {!isAuthenticated && (
+                  <div class="text-[10px] text-slate-500 border-t border-white/[0.04] pt-2">
+                    💡 <Link to="/signup" class="text-indigo-400 hover:underline">Sign up</Link> to save this link permanently, customize expiration times, and unlock deep analytic reports.
+                  </div>
+                )}
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
 
-      {/* Real-time Performance Metrics */}
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 max-w-5xl mx-auto text-center">
-        {[
-          { label: 'Redirection Latency', val: '< 5ms', detail: 'Using Redis Cache' },
-          { label: 'Maximum Throughput', val: '10k/sec', detail: 'Distributed Cluster' },
-          { label: 'Link Encoding Space', val: '56.8B', detail: '6-Char Base62 capacity' },
-          { label: 'Uptime SLA', val: '99.99%', detail: 'High Availability' }
-        ].map((item, idx) => (
-          <div key={idx} class="glass-card flex flex-col justify-center items-center py-6 px-4">
-            <div class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">{item.val}</div>
-            <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider">{item.label}</div>
-            <div class="text-[10px] text-slate-500 mt-0.5">{item.detail}</div>
-          </div>
-        ))}
-      </div>
-
-      {/* Feature Section */}
+      {/* Feature Section: Redesigned Cards */}
       <div class="space-y-12">
-        <div class="text-center max-w-2xl mx-auto space-y-3">
-          <h2 class="text-3xl font-bold tracking-tight text-white sm:text-4xl">
-            Designed for Real-World Scalability
+        <div class="text-center max-w-2xl mx-auto space-y-2">
+          <h2 class="text-2xl font-semibold tracking-tight text-white font-sans sm:text-3xl">
+            Reliable Infrastructure
           </h2>
-          <p class="text-slate-400 font-light">
-            Engineered with modern architecture guidelines to handle millions of redirection requests smoothly.
+          <p class="text-slate-500 font-light text-xs font-mono">
+            Optimized for low-latency redirections and detailed request tracking.
           </p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-8">
+        <div class="grid md:grid-cols-3 gap-6">
           {[
             {
-              icon: <Zap class="w-6 h-6 text-indigo-400" />,
-              title: 'Cache-Aside Redirection',
-              desc: 'Utilizes high-speed Redis memory storage. Redirections bypass database queries completely on cache hits, ensuring near-instantaneous page jumps.'
+              icon: <Zap class="w-4 h-4 text-indigo-400" />,
+              title: 'Fast Redirects',
+              desc: '12ms average redirect latency. Redirection lookups bypass databases completely by querying RAM-based Redis instances.'
             },
             {
-              icon: <BarChart3 class="w-6 h-6 text-blue-400" />,
-              title: 'Asynchronous Analytics',
-              desc: 'Redirections run non-blocking analytics logging using Node event loop handlers, keeping the redirection path fast and isolated from database load.'
+              icon: <BarChart3 class="w-4 h-4 text-blue-400" />,
+              title: 'Analytics Engine',
+              desc: 'Track clicks, browser useragents, devices, and countries asynchronously without slowing down your visitor\'s jump.'
             },
             {
-              icon: <ShieldCheck class="w-6 h-6 text-indigo-400" />,
-              title: 'Security Hardened',
-              desc: 'Integrates rate limiters, bcrypt password hashing, input sanitization, and parameterized database queries to safeguard endpoints and data integrity.'
+              icon: <ShieldCheck class="w-4 h-4 text-emerald-400" />,
+              title: 'Secure Links',
+              desc: 'Enforce connection safety with input validation, password hashing, and customizable expiration configurations.'
             }
           ].map((feat, idx) => (
-            <div key={idx} class="glass-card relative overflow-hidden group hover:border-slate-700/60 transition-all duration-300">
-              <div class="w-12 h-12 rounded-xl bg-slate-950 border border-slate-800/80 flex items-center justify-center mb-5">
+            <motion.div 
+              key={idx} 
+              whileHover={{ y: -2 }}
+              class="saas-card bg-white/[0.015] border-white/[0.08] hover:border-white/[0.12] p-5 text-left flex flex-col justify-between"
+            >
+              <div class="w-9 h-9 rounded-lg bg-black/40 border border-white/[0.06] flex items-center justify-center mb-4">
                 {feat.icon}
               </div>
-              <h3 class="text-lg font-bold text-white mb-2">{feat.title}</h3>
-              <p class="text-slate-400 text-sm font-light leading-relaxed">{feat.desc}</p>
-            </div>
+              <div class="space-y-1">
+                <h3 class="text-sm font-semibold text-white font-mono">{feat.title}</h3>
+                <p class="text-slate-400 text-xs font-light leading-relaxed">{feat.desc}</p>
+              </div>
+            </motion.div>
           ))}
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

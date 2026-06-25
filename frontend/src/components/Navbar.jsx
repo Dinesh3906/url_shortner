@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
-import { Link2, Menu, X, LogOut, LayoutDashboard, User } from 'lucide-react';
+import { Link2, Menu, X, LogOut, LayoutDashboard, Terminal, HelpCircle } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 
-const Navbar = ({ onNavigate }) => {
+const Navbar = () => {
   const { user, logout, isAuthenticated } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [hoveredTab, setHoveredTab] = useState(null);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -17,76 +19,109 @@ const Navbar = ({ onNavigate }) => {
 
   const isActive = (path) => location.pathname === path;
 
+  const navLinks = [
+    { name: 'Dashboard', path: '/dashboard', private: true },
+    { name: 'Analytics', path: '/dashboard', private: true, search: '?tab=analytics' }, // Point to dashboard with analytics tab or specific link
+    { name: 'API', path: '#api-docs', private: false },
+    { name: 'Docs', path: '#docs', private: false }
+  ];
+
   return (
-    <nav class="sticky top-0 z-50 glass-panel border-x-0 border-t-0 border-b border-slate-800/80 bg-slate-950/75 backdrop-blur-lg">
+    <nav class="sticky top-0 z-50 border-b border-white/[0.06] bg-[#05070d]/75 backdrop-blur-md">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div class="flex items-center">
+        <div class="flex items-center justify-between h-14">
+          
+          {/* Left: Brand Logo & Status Badge */}
+          <div class="flex items-center gap-4">
             <Link to="/" class="flex items-center gap-2 group">
-              <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition-transform duration-200">
-                <Link2 class="w-5 h-5 rotate-45" />
+              <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white border border-indigo-400/30 group-hover:bg-indigo-500 transition-colors">
+                <Link2 class="w-4.5 h-4.5 rotate-45" />
               </div>
-              <span class="text-xl font-extrabold bg-gradient-to-r from-white via-slate-100 to-indigo-400 bg-clip-text text-transparent tracking-tight">
+              <span class="text-base font-semibold tracking-tight text-white font-mono">
                 ShortLink
               </span>
             </Link>
+            
+            {/* Status Badge */}
+            <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-indigo-500/5 border border-indigo-500/10 text-indigo-400/80 font-mono text-[9px] font-medium tracking-wide">
+              <span class="w-1 h-1 rounded-full bg-indigo-400 animate-pulse"></span>
+              URL Infrastructure
+            </span>
           </div>
 
-          {/* Desktop Navigation */}
+          {/* Middle: Navigation Links */}
           <div class="hidden md:flex items-center space-x-1">
-            <Link
-              to="/"
-              class={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
-                isActive('/') 
-                  ? 'text-indigo-400 bg-indigo-500/5 border border-indigo-500/10' 
-                  : 'text-slate-300 hover:text-white hover:bg-slate-900/50'
-              }`}
-            >
-              Home
-            </Link>
+            {navLinks.map((link) => {
+              // Hide private links if not authenticated
+              if (link.private && !isAuthenticated) return null;
+              
+              const linkPath = link.search ? `${link.path}${link.search}` : link.path;
+              const isLinkActive = isActive(link.path);
 
-            {isAuthenticated ? (
-              <>
+              return (
                 <Link
-                  to="/dashboard"
-                  class={`px-4 py-2 rounded-lg text-sm font-medium flex items-center gap-1.5 transition-colors ${
-                    isActive('/dashboard')
-                      ? 'text-indigo-400 bg-indigo-500/5 border border-indigo-500/10'
-                      : 'text-slate-300 hover:text-white hover:bg-slate-900/50'
+                  key={link.name}
+                  to={linkPath}
+                  onMouseEnter={() => setHoveredTab(link.name)}
+                  onMouseLeave={() => setHoveredTab(null)}
+                  class={`relative px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-colors ${
+                    isLinkActive ? 'text-white' : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  <LayoutDashboard class="w-4 h-4" />
-                  Dashboard
+                  {isLinkActive && (
+                    <motion.div
+                      layoutId="activeNavIndicator"
+                      class="absolute inset-0 bg-white/[0.03] border border-white/[0.06] rounded-lg"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  {hoveredTab === link.name && !isLinkActive && (
+                    <motion.div
+                      layoutId="hoverNavIndicator"
+                      class="absolute inset-0 bg-white/[0.015] rounded-lg -z-10"
+                      transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                    />
+                  )}
+                  {link.name}
                 </Link>
-                <div class="h-4 w-px bg-slate-800 mx-2"></div>
-                <div class="flex items-center gap-3 pl-2">
-                  <span class="text-slate-400 text-sm flex items-center gap-1.5">
-                    <div class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
-                    {user?.username}
-                  </span>
-                  <button
-                    onClick={handleLogout}
-                    class="p-2 text-slate-400 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-all duration-150 flex items-center gap-1 text-sm font-medium"
-                  >
-                    <LogOut class="w-4 h-4" />
-                    Logout
-                  </button>
-                </div>
-              </>
+              );
+            })}
+          </div>
+
+          {/* Right: Authentication / Actions */}
+          <div class="hidden md:flex items-center gap-3">
+            {isAuthenticated ? (
+              <div class="flex items-center gap-4">
+                <span class="text-[11px] text-slate-500 font-mono flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  {user?.username}
+                </span>
+                
+                <Link to="/dashboard" class="saas-btn-primary !py-1.5 !px-3.5 !text-xs font-mono">
+                  Console
+                </Link>
+                
+                <button
+                  onClick={handleLogout}
+                  class="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                  title="Logout"
+                >
+                  <LogOut class="w-4 h-4" />
+                </button>
+              </div>
             ) : (
               <>
                 <Link
                   to="/login"
-                  class="text-slate-300 hover:text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors"
+                  class="text-slate-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-colors"
                 >
                   Sign In
                 </Link>
                 <Link
                   to="/signup"
-                  class="ml-2 btn-primary !py-2 !px-4 !text-sm flex items-center gap-1"
+                  class="saas-btn-primary !py-1.5 !px-3.5 !text-xs font-mono"
                 >
-                  Get Started
+                  Create Link
                 </Link>
               </>
             )}
@@ -96,77 +131,93 @@ const Navbar = ({ onNavigate }) => {
           <div class="md:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              class="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white hover:bg-slate-900 focus:outline-none transition-colors"
+              class="inline-flex items-center justify-center p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.04] focus:outline-none transition-colors"
             >
-              {mobileMenuOpen ? <X class="w-6 h-6" /> : <Menu class="w-6 h-6" />}
+              {mobileMenuOpen ? <X class="w-5 h-5" /> : <Menu class="w-5 h-5" />}
             </button>
           </div>
         </div>
       </div>
 
       {/* Mobile Menu */}
-      {mobileMenuOpen && (
-        <div class="md:hidden glass-panel border-x-0 border-t-0 border-b border-slate-800 bg-slate-950 px-2 pt-2 pb-4 space-y-1">
-          <Link
-            to="/"
-            onClick={() => setMobileMenuOpen(false)}
-            class={`block px-3 py-2.5 rounded-lg text-base font-medium transition-colors ${
-              isActive('/') 
-                ? 'text-indigo-400 bg-indigo-500/5' 
-                : 'text-slate-300 hover:text-white hover:bg-slate-900'
-            }`}
+      <AnimatePresence>
+        {mobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            class="md:hidden border-b border-white/[0.06] bg-[#05070d]/95 px-2 pt-2 pb-4 space-y-1"
           >
-            Home
-          </Link>
+            <Link
+              to="/"
+              onClick={() => setMobileMenuOpen(false)}
+              class={`block px-3 py-2 rounded-lg text-xs font-medium font-mono ${
+                isActive('/') ? 'text-white bg-white/[0.04]' : 'text-slate-400 hover:text-white'
+              }`}
+            >
+              Home
+            </Link>
 
-          {isAuthenticated ? (
-            <>
-              <Link
-                to="/dashboard"
-                onClick={() => setMobileMenuOpen(false)}
-                class={`px-3 py-2.5 rounded-lg text-base font-medium flex items-center gap-2 transition-colors ${
-                  isActive('/dashboard')
-                    ? 'text-indigo-400 bg-indigo-500/5'
-                    : 'text-slate-300 hover:text-white hover:bg-slate-900'
-                }`}
-              >
-                <LayoutDashboard class="w-5 h-5" />
-                Dashboard
-              </Link>
-              <div class="border-t border-slate-800 my-2 px-3 pt-2">
-                <p class="text-slate-400 text-sm mb-3 flex items-center gap-1.5">
-                  <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
-                  Signed in as <strong class="text-slate-200">{user?.username}</strong>
-                </p>
-                <button
-                  onClick={handleLogout}
-                  class="w-full py-2.5 px-3 bg-red-950/20 hover:bg-red-950/40 border border-red-900/30 text-red-400 hover:text-red-300 rounded-xl font-medium transition-colors flex items-center justify-center gap-2 text-sm"
+            {navLinks.map((link) => {
+              if (link.private && !isAuthenticated) return null;
+              const linkPath = link.search ? `${link.path}${link.search}` : link.path;
+              return (
+                <Link
+                  key={link.name}
+                  to={linkPath}
+                  onClick={() => setMobileMenuOpen(false)}
+                  class={`block px-3 py-2 rounded-lg text-xs font-medium font-mono ${
+                    isActive(link.path) ? 'text-white bg-white/[0.04]' : 'text-slate-400 hover:text-white'
+                  }`}
                 >
-                  <LogOut class="w-4 h-4" />
-                  Logout
-                </button>
+                  {link.name}
+                </Link>
+              );
+            })}
+
+            {isAuthenticated ? (
+              <div class="border-t border-white/[0.06] my-2 pt-2 px-3">
+                <p class="text-slate-500 text-xs font-mono mb-3 flex items-center gap-1.5">
+                  <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
+                  Signed in as <strong class="text-slate-300">{user?.username}</strong>
+                </p>
+                <div class="flex gap-2">
+                  <Link
+                    to="/dashboard"
+                    onClick={() => setMobileMenuOpen(false)}
+                    class="flex-1 text-center py-2 bg-white/[0.02] border border-white/[0.08] text-slate-300 rounded-lg text-xs font-mono font-medium"
+                  >
+                    Console
+                  </Link>
+                  <button
+                    onClick={handleLogout}
+                    class="flex-1 py-2 bg-red-950/20 border border-red-900/30 text-red-400 rounded-lg text-xs font-mono font-medium"
+                  >
+                    Logout
+                  </button>
+                </div>
               </div>
-            </>
-          ) : (
-            <div class="pt-2 border-t border-slate-800 space-y-2 px-3">
-              <Link
-                to="/login"
-                onClick={() => setMobileMenuOpen(false)}
-                class="block w-full text-center py-2.5 border border-slate-800 hover:bg-slate-900 text-slate-300 rounded-xl text-sm font-medium transition-colors"
-              >
-                Sign In
-              </Link>
-              <Link
-                to="/signup"
-                onClick={() => setMobileMenuOpen(false)}
-                class="block w-full text-center py-2.5 btn-primary text-sm font-medium"
-              >
-                Get Started
-              </Link>
-            </div>
-          )}
-        </div>
-      )}
+            ) : (
+              <div class="pt-2 border-t border-white/[0.06] space-y-2 px-3">
+                <Link
+                  to="/login"
+                  onClick={() => setMobileMenuOpen(false)}
+                  class="block w-full text-center py-2 border border-white/[0.08] text-slate-400 hover:text-white rounded-lg text-xs font-mono font-medium transition-colors"
+                >
+                  Sign In
+                </Link>
+                <Link
+                  to="/signup"
+                  onClick={() => setMobileMenuOpen(false)}
+                  class="block w-full text-center py-2 saas-btn-primary text-xs font-mono font-medium"
+                >
+                  Create Link
+                </Link>
+              </div>
+            )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </nav>
   );
 };

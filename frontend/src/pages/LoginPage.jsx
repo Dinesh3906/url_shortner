@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
-import { Mail, Lock, LogIn, AlertCircle, ArrowRight } from 'lucide-react';
+import { Mail, Lock, LogIn, AlertCircle, ArrowRight, Terminal } from 'lucide-react';
+import { motion } from 'framer-motion';
 
 const LoginPage = () => {
   const { login, isAuthenticated } = useAuth();
@@ -49,39 +50,48 @@ const LoginPage = () => {
   };
 
   return (
-    <div class="min-h-[calc(100vh-4rem)] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-      <div class="max-w-md w-full space-y-8">
+    <div class="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+      <motion.div 
+        initial={{ opacity: 0, y: 15 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.3 }}
+        class="max-w-md w-full space-y-8 text-left"
+      >
         {/* Header */}
-        <div class="text-center">
-          <h2 class="text-3xl sm:text-4xl font-extrabold tracking-tight text-white">
-            Welcome Back
+        <div class="text-center space-y-2">
+          <h2 class="text-3xl font-semibold tracking-tight text-white font-sans">
+            Welcome back
           </h2>
-          <p class="mt-2.5 text-sm text-slate-400 font-light">
-            Sign in to manage your shortened links and view analytics
+          <p class="text-xs text-slate-500 font-mono">
+            Sign in to access your URL console
           </p>
         </div>
 
         {/* Card */}
-        <div class="glass-panel rounded-3xl p-8 shadow-2xl relative overflow-hidden border border-slate-800/80">
+        <div class="saas-card bg-white/[0.01] border-white/[0.08] relative overflow-hidden p-8">
           {/* Subtle top decoration line */}
-          <div class="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-transparent via-indigo-500/80 to-transparent"></div>
+          <div class="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent"></div>
 
           {error && (
-            <div class="mb-6 p-4 bg-red-950/20 border border-red-500/20 rounded-2xl flex items-start gap-3 text-red-400 text-sm animate-shake">
-              <AlertCircle class="w-5 h-5 shrink-0 mt-0.5" />
+            <motion.div 
+              initial={{ x: -10, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              class="mb-6 p-3.5 bg-red-950/20 border border-red-500/10 rounded-xl flex items-start gap-2 text-red-400 font-mono text-[11px]"
+            >
+              <AlertCircle class="w-4 h-4 shrink-0 mt-0.5" />
               <span>{error}</span>
-            </div>
+            </motion.div>
           )}
 
-          <form class="space-y-6" onSubmit={handleSubmit}>
+          <form class="space-y-5" onSubmit={handleSubmit}>
             {/* Username/Email Input */}
-            <div class="space-y-2">
-              <label htmlFor="emailOrUsername" class="text-sm font-semibold text-slate-300">
-                Email Address or Username
+            <div class="space-y-1.5 font-mono text-xs">
+              <label htmlFor="emailOrUsername" class="font-semibold text-slate-400 uppercase tracking-wide">
+                Email or Username
               </label>
               <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                  <Mail class="w-5 h-5" />
+                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-slate-600">
+                  <Mail class="w-4 h-4" />
                 </div>
                 <input
                   id="emailOrUsername"
@@ -90,22 +100,20 @@ const LoginPage = () => {
                   required
                   value={formData.emailOrUsername}
                   onChange={handleChange}
-                  class="w-full glass-input pl-11"
-                  placeholder="name@example.com or username"
+                  class="w-full saas-input pl-10 !py-2.5"
+                  placeholder="name@example.com"
                 />
               </div>
             </div>
 
             {/* Password Input */}
-            <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <label htmlFor="password" class="text-sm font-semibold text-slate-300">
-                  Password
-                </label>
-              </div>
+            <div class="space-y-1.5 font-mono text-xs">
+              <label htmlFor="password" class="font-semibold text-slate-400 uppercase tracking-wide">
+                Password
+              </label>
               <div class="relative">
-                <div class="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-500">
-                  <Lock class="w-5 h-5" />
+                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-slate-600">
+                  <Lock class="w-4 h-4" />
                 </div>
                 <input
                   id="password"
@@ -114,7 +122,7 @@ const LoginPage = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  class="w-full glass-input pl-11"
+                  class="w-full saas-input pl-10 !py-2.5"
                   placeholder="••••••••"
                 />
               </div>
@@ -124,29 +132,29 @@ const LoginPage = () => {
             <button
               type="submit"
               disabled={loading}
-              class="w-full btn-primary py-3.5 flex items-center justify-center gap-2 group text-base font-semibold"
+              class="w-full saas-btn-primary py-3.5 flex items-center justify-center gap-2 group text-sm font-semibold font-mono mt-2"
             >
               {loading ? (
-                <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <>
-                  <LogIn class="w-5 h-5" />
-                  Sign In
-                  <ArrowRight class="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <LogIn class="w-4 h-4" />
+                  Authenticate
+                  <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </>
               )}
             </button>
           </form>
 
           {/* Footer */}
-          <div class="mt-8 pt-6 border-t border-slate-800/60 text-center text-sm text-slate-400">
-            Don't have an account?{' '}
+          <div class="mt-8 pt-6 border-t border-white/[0.04] text-center text-xs text-slate-500 font-mono">
+            New developer?{' '}
             <Link to="/signup" class="text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">
-              Sign up for free
+              Create an account
             </Link>
           </div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

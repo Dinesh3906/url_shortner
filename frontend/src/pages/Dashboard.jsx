@@ -148,12 +148,12 @@ const Dashboard = () => {
     <div class="min-h-[calc(100vh-3.5rem)] flex flex-col md:flex-row">
       
       {/* Sidebar Console Navigation */}
-      <aside class="w-full md:w-64 border-b md:border-b-0 md:border-r border-white/[0.06] bg-[#05070d]/50 p-4 shrink-0 flex flex-col gap-6">
+      <aside class="w-full md:w-64 border-b md:border-b-0 md:border-r border-zinc-800 bg-[#09090b] p-4 shrink-0 flex flex-col gap-6">
         
         {/* User Workspace Info */}
         <div class="px-2 py-1 flex items-center justify-between">
           <div class="flex items-center gap-2">
-            <div class="w-2.5 h-2.5 rounded-full bg-indigo-500"></div>
+            <div class="w-2 h-2 rounded bg-zinc-650"></div>
             <span class="text-xs font-mono font-bold tracking-tight text-white uppercase">Console Workspace</span>
           </div>
         </div>
@@ -180,8 +180,8 @@ const Dashboard = () => {
               onClick={() => setActiveTab(item.id)}
               class={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-mono font-medium transition-colors text-left ${
                 activeTab === item.id 
-                  ? 'bg-white/[0.03] text-white border border-white/[0.06]' 
-                  : 'text-slate-400 hover:text-white hover:bg-white/[0.015]'
+                  ? 'bg-zinc-900 text-white border border-zinc-800' 
+                  : 'text-zinc-400 hover:text-white hover:bg-zinc-900/50'
               }`}
             >
               {item.icon}
@@ -199,34 +199,34 @@ const Dashboard = () => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} class="space-y-8">
             <div>
               <h1 class="text-xl font-semibold tracking-tight text-white font-sans">Overview</h1>
-              <p class="text-xs text-slate-500 mt-1 font-mono">Consolidated traffic and service metrics</p>
+              <p class="text-xs text-zinc-500 mt-1 font-mono">Consolidated traffic and service metrics</p>
             </div>
 
             {/* Metrics Grid */}
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
-                { label: 'Total Short Links', val: totalUrls, color: 'text-indigo-400' },
-                { label: 'Total Redirection Clicks', val: totalClicks.toLocaleString(), color: 'text-blue-400' },
-                { label: 'Active Link Interfaces', val: activeUrls, color: 'text-emerald-400' }
+                { label: 'Total Short Links', val: totalUrls, color: 'text-zinc-100' },
+                { label: 'Total Redirection Clicks', val: totalClicks.toLocaleString(), color: 'text-zinc-200' },
+                { label: 'Active Link Interfaces', val: activeUrls, color: 'text-zinc-300' }
               ].map((stat, idx) => (
-                <div key={idx} class="saas-card relative overflow-hidden bg-white/[0.01] p-5">
-                  <div class="text-[10px] font-mono text-slate-500 uppercase tracking-wider">{stat.label}</div>
-                  <div class={`text-3xl font-bold mt-2 font-mono ${stat.color}`}>{stat.val}</div>
+                <div key={idx} class="saas-card relative overflow-hidden bg-[#121214] border-zinc-800 p-5">
+                  <div class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</div>
+                  <div class={`text-2xl font-bold mt-2 font-mono ${stat.color}`}>{stat.val}</div>
                 </div>
               ))}
             </div>
 
             {/* System Info card */}
-            <div class="saas-card bg-white/[0.01] space-y-4">
+            <div class="saas-card bg-[#121214] border-zinc-800 space-y-4">
               <h3 class="text-sm font-semibold font-mono text-white">System Architecture Status</h3>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-slate-400">
-                <div class="flex items-center justify-between p-3 bg-black/40 border border-white/[0.04] rounded-xl">
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-zinc-450">
+                <div class="flex items-center justify-between p-3 bg-[#09090b] border border-zinc-800 rounded-lg">
                   <span>Atomic Sequence Generator:</span>
-                  <span class="text-emerald-400 font-bold">ONLINE</span>
+                  <span class="status-badge status-badge-active">Online</span>
                 </div>
-                <div class="flex items-center justify-between p-3 bg-black/40 border border-white/[0.04] rounded-xl">
+                <div class="flex items-center justify-between p-3 bg-[#09090b] border border-zinc-800 rounded-lg">
                   <span>Redis Cache Resolution:</span>
-                  <span class="text-indigo-400 font-bold">ACTIVE (12ms SLA)</span>
+                  <span class="status-badge status-badge-active">Active</span>
                 </div>
               </div>
             </div>
@@ -241,31 +241,31 @@ const Dashboard = () => {
             <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
                 <h1 class="text-xl font-semibold tracking-tight text-white font-sans">Links</h1>
-                <p class="text-xs text-slate-500 mt-1 font-mono">Manage shortening interfaces and query endpoints</p>
+                <p class="text-xs text-zinc-500 mt-1 font-mono">Manage shortening interfaces and query endpoints</p>
               </div>
             </div>
 
             {/* URL List Container */}
-            <div class="saas-card relative overflow-hidden bg-white/[0.01] p-0 border-white/[0.06]">
+            <div class="saas-card relative overflow-hidden bg-[#121214] p-0 border-zinc-800">
               
               {/* Header Bar search */}
-              <div class="p-4 flex items-center justify-between gap-4 border-b border-white/[0.06]">
+              <div class="p-4 flex items-center justify-between gap-4 border-b border-zinc-800">
                 <div class="relative w-full sm:w-72">
-                  <Search class="absolute inset-y-0 left-3 w-4 h-4 text-slate-600 my-auto" />
+                  <Search class="absolute inset-y-0 left-3 w-4 h-4 text-zinc-650 my-auto" />
                   <input
                     type="text"
                     placeholder="Search shortcode or destination..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    class="w-full bg-black/40 border border-white/[0.08] text-xs text-white rounded-xl pl-9 pr-4 py-2 outline-none focus:border-indigo-500 placeholder-slate-600 font-mono"
+                    class="w-full saas-input pl-9 text-xs"
                   />
                 </div>
               </div>
 
               {loading ? (
                 <div class="py-20 text-center">
-                  <div class="w-8 h-8 border-3 border-indigo-600/30 border-t-indigo-500 rounded-full animate-spin mx-auto"></div>
-                  <p class="text-xs text-slate-500 mt-4 font-mono">Querying links from cluster...</p>
+                  <div class="w-8 h-8 border-2 border-zinc-850 border-t-zinc-350 rounded-full animate-spin mx-auto"></div>
+                  <p class="text-xs text-zinc-550 mt-4 font-mono">Querying links from cluster...</p>
                 </div>
               ) : error ? (
                 <div class="py-20 text-center text-red-400 flex flex-col items-center justify-center gap-2 font-mono text-xs">
@@ -273,17 +273,17 @@ const Dashboard = () => {
                   <p>{error}</p>
                 </div>
               ) : filteredUrls.length === 0 ? (
-                <div class="py-20 text-center text-slate-500 space-y-3 font-mono text-xs">
-                  <p class="font-medium text-slate-400">No links resolved</p>
-                  <p class="text-[10px] text-slate-600">
+                <div class="py-20 text-center text-zinc-500 space-y-3 font-mono text-xs">
+                  <p class="font-medium text-zinc-400">No links resolved</p>
+                  <p class="text-[10px] text-zinc-650">
                     {searchQuery ? 'Adjust your search queries' : 'Launch your first shortened URL using the "Create Link" button'}
                   </p>
                 </div>
               ) : (
-                <div class="overflow-x-auto">
+                <div class="overflow-x-auto font-mono">
                   <table class="w-full min-w-[700px] border-collapse">
                     <thead>
-                      <tr class="bg-white/[0.01]">
+                      <tr class="bg-black/20">
                         <th class="enterprise-table-header w-[35%]">Destination URL</th>
                         <th class="enterprise-table-header w-[25%]">Short URL</th>
                         <th class="enterprise-table-header w-[15%]">Created</th>
@@ -298,15 +298,15 @@ const Dashboard = () => {
                         const displayDest = url.originalUrl.replace(/https?:\/\/(www\.)?/, '');
                         
                         return (
-                          <tr key={url._id} class="hover:bg-white/[0.015] transition-colors border-b border-white/[0.04]">
+                          <tr key={url._id} class="hover:bg-zinc-900/40 transition-colors border-b border-zinc-800/40">
                             {/* Destination */}
                             <td class="enterprise-table-cell max-w-[250px]">
                               <div class="flex flex-col gap-1">
-                                <span class="truncate font-mono text-xs text-slate-400 block" title={url.originalUrl}>
+                                <span class="truncate font-mono text-xs text-zinc-450 block" title={url.originalUrl}>
                                   {displayDest}
                                 </span>
                                 {url.expiresAt && (
-                                  <span class={`inline-flex items-center gap-1 text-[9px] font-mono ${isExpired ? 'text-red-400' : 'text-yellow-500'}`}>
+                                  <span class={`inline-flex items-center gap-1 text-[9px] font-mono ${isExpired ? 'text-rose-400' : 'text-amber-500'}`}>
                                     <Calendar class="w-3 h-3" />
                                     {isExpired ? 'Expired' : `Expires: ${new Date(url.expiresAt).toLocaleDateString()}`}
                                   </span>
@@ -321,27 +321,27 @@ const Dashboard = () => {
                                   href={url.shortUrl}
                                   target="_blank"
                                   rel="noreferrer"
-                                  class="text-indigo-400 hover:text-indigo-300 font-semibold font-mono text-xs flex items-center gap-1"
+                                  class="text-zinc-200 hover:text-white font-semibold font-mono text-xs flex items-center gap-1"
                                 >
                                   /{url.shortCode}
-                                  <ExternalLink class="w-3 h-3 text-indigo-500" />
+                                  <ExternalLink class="w-3 h-3 text-zinc-500" />
                                 </a>
                                 <button
                                   onClick={() => handleCopy(url._id, url.shortUrl)}
-                                  class="p-1 text-slate-500 hover:text-slate-200 rounded transition-colors"
+                                  class="p-1 text-zinc-500 hover:text-zinc-300 rounded transition-colors"
                                 >
-                                  {copiedId === url._id ? <Check class="w-3.5 h-3.5 text-emerald-400" /> : <Copy class="w-3 h-3" />}
+                                  {copiedId === url._id ? <Check class="w-3.5 h-3.5 text-emerald-600" /> : <Copy class="w-3 h-3" />}
                                 </button>
                               </div>
                             </td>
 
                             {/* Created */}
-                            <td class="enterprise-table-cell font-mono text-xs text-slate-400">
+                            <td class="enterprise-table-cell font-mono text-xs text-zinc-450">
                               {new Date(url.createdAt).toLocaleDateString()}
                             </td>
 
                             {/* Clicks */}
-                            <td class="enterprise-table-cell text-center font-mono font-bold text-white text-xs">
+                            <td class="enterprise-table-cell text-center font-mono font-bold text-zinc-200 text-xs">
                               {url.clicks >= 1000 ? `${(url.clicks / 1000).toFixed(1)}k` : url.clicks}
                             </td>
 
@@ -350,14 +350,14 @@ const Dashboard = () => {
                               <div class="flex items-center justify-center gap-1.5">
                                 <button
                                   onClick={() => navigate(`/analytics/${url._id}`)}
-                                  class="p-1.5 bg-indigo-950/40 hover:bg-indigo-900/60 border border-indigo-900/30 text-indigo-400 rounded-lg transition-colors flex items-center justify-center"
+                                  class="p-1.5 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 rounded-lg transition-colors flex items-center justify-center"
                                   title="Analytics"
                                 >
                                   <BarChart2 class="w-3.5 h-3.5" />
                                 </button>
                                 <button
                                   onClick={() => handleDelete(url._id)}
-                                  class="p-1.5 bg-red-950/40 hover:bg-red-900/60 border border-red-900/30 text-red-400 rounded-lg transition-colors flex items-center justify-center"
+                                  class="p-1.5 bg-zinc-900 border border-zinc-800 text-rose-500 hover:bg-rose-950/20 hover:border-rose-900/30 hover:text-rose-400 rounded-lg transition-colors flex items-center justify-center"
                                   title="Delete"
                                 >
                                   <Trash2 class="w-3.5 h-3.5" />
@@ -380,11 +380,11 @@ const Dashboard = () => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} class="space-y-6">
             <div>
               <h1 class="text-xl font-semibold tracking-tight text-white font-sans">API Credentials</h1>
-              <p class="text-xs text-slate-500 mt-1 font-mono">Generate tokens to programmatically shorten links via standard cURL requests</p>
+              <p class="text-xs text-zinc-550 mt-1 font-mono">Generate tokens to programmatically shorten links via standard cURL requests</p>
             </div>
 
             {/* Key generator form */}
-            <div class="saas-card bg-white/[0.01]">
+            <div class="saas-card bg-[#121214] border-zinc-800">
               <h3 class="text-sm font-semibold font-mono text-white mb-3">Generate API Token</h3>
               <form onSubmit={handleCreateApiKey} class="flex flex-col sm:flex-row gap-2 max-w-lg">
                 <input
@@ -402,35 +402,35 @@ const Dashboard = () => {
 
               {/* Show generated key warning */}
               {generatedKey && (
-                <div class="mt-4 p-4 bg-indigo-950/20 border border-indigo-500/20 rounded-xl space-y-2 font-mono text-xs text-left">
-                  <div class="text-[10px] text-indigo-400 uppercase font-semibold">Copy your API Key now:</div>
-                  <div class="flex items-center justify-between gap-3 bg-black/60 border border-white/[0.06] rounded-lg p-2.5">
-                    <span class="text-white font-bold select-all break-all">{generatedKey}</span>
+                <div class="mt-4 p-4 bg-zinc-900 border border-zinc-800 rounded space-y-2 font-mono text-xs text-left">
+                  <div class="text-[10px] text-zinc-400 uppercase font-semibold">Copy your API Key now:</div>
+                  <div class="flex items-center justify-between gap-3 bg-black/40 border border-zinc-800 rounded p-2.5">
+                    <span class="text-zinc-200 font-bold select-all break-all">{generatedKey}</span>
                     <button 
                       onClick={() => handleCopy('newkey', generatedKey)}
-                      class="p-1.5 text-slate-500 hover:text-white rounded transition-colors shrink-0"
+                      class="p-1.5 text-zinc-500 hover:text-white rounded transition-colors shrink-0"
                     >
-                      {copiedId === 'newkey' ? <Check class="w-4 h-4 text-emerald-400" /> : <Copy class="w-3.5 h-3.5" />}
+                      {copiedId === 'newkey' ? <Check class="w-4 h-4 text-emerald-600" /> : <Copy class="w-3.5 h-3.5" />}
                     </button>
                   </div>
-                  <p class="text-[9px] text-yellow-500/80">⚠️ For security, this key won't be shown again. Save it securely.</p>
+                  <p class="text-[9px] text-amber-500/90">⚠️ Save this key securely. It cannot be shown again.</p>
                 </div>
               )}
             </div>
 
             {/* List keys */}
-            <div class="saas-card bg-white/[0.01] p-0 overflow-hidden">
-              <div class="p-4 border-b border-white/[0.06]">
+            <div class="saas-card bg-[#121214] border-zinc-800 p-0 overflow-hidden">
+              <div class="p-4 border-b border-zinc-800">
                 <h3 class="text-sm font-semibold font-mono text-white">Active Tokens</h3>
               </div>
-              <div class="divide-y divide-white/[0.04] font-mono text-xs">
+              <div class="divide-y divide-zinc-800/60 font-mono text-xs">
                 {apiKeys.map((key) => (
                   <div key={key.id} class="p-4 flex items-center justify-between gap-4">
                     <div>
-                      <div class="font-bold text-white">{key.name}</div>
-                      <div class="text-[10px] text-slate-500 mt-0.5">{key.token}</div>
+                      <div class="font-bold text-zinc-200">{key.name}</div>
+                      <div class="text-[10px] text-zinc-500 mt-0.5">{key.token}</div>
                     </div>
-                    <div class="text-[10px] text-slate-500">
+                    <div class="text-[10px] text-zinc-500">
                       Created: {key.created}
                     </div>
                   </div>
@@ -445,21 +445,21 @@ const Dashboard = () => {
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} class="space-y-6">
             <div>
               <h1 class="text-xl font-semibold tracking-tight text-white font-sans">Settings</h1>
-              <p class="text-xs text-slate-500 mt-1 font-mono">Workspace settings and database configuration</p>
+              <p class="text-xs text-zinc-500 mt-1 font-mono">Workspace settings and database configuration</p>
             </div>
 
-            <div class="saas-card bg-white/[0.01] space-y-4">
+            <div class="saas-card bg-[#121214] border-zinc-800 space-y-4">
               <h3 class="text-sm font-semibold font-mono text-white">Database Namespace</h3>
               <div class="space-y-3 font-mono text-xs max-w-md">
                 <div class="space-y-1">
-                  <div class="text-[10px] text-slate-500">Active Connection Namespace</div>
-                  <div class="p-3 bg-black/40 border border-white/[0.04] rounded-xl text-slate-300 break-all select-all font-semibold">
+                  <div class="text-[10px] text-zinc-500">Active Connection Namespace</div>
+                  <div class="p-3 bg-black/40 border border-zinc-800 rounded-lg text-zinc-300 break-all select-all font-semibold">
                     mongodb+srv://cluster0.egxrx3d.mongodb.net/shortlink
                   </div>
                 </div>
                 <div class="space-y-1">
-                  <div class="text-[10px] text-slate-500">Cache Layer Host</div>
-                  <div class="p-3 bg-black/40 border border-white/[0.04] rounded-xl text-slate-300 break-all select-all font-semibold">
+                  <div class="text-[10px] text-zinc-500">Cache Layer Host</div>
+                  <div class="p-3 bg-black/40 border border-zinc-800 rounded-lg text-zinc-300 break-all select-all font-semibold">
                     brilliant-abstracted-income-99971.db.redis.io:16979
                   </div>
                 </div>
@@ -488,18 +488,16 @@ const Dashboard = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              class="saas-card w-full max-w-md relative z-10 p-6 bg-[#05070d] border border-white/[0.08]"
+              class="saas-card w-full max-w-md relative z-10 p-6 bg-[#09090b] border border-zinc-800 shadow-2xl"
             >
-              <div class="absolute top-0 left-0 right-0 h-[1.5px] bg-gradient-to-r from-transparent via-indigo-500/60 to-transparent"></div>
-              
-              <div class="flex justify-between items-center border-b border-white/[0.06] pb-3 mb-4">
+              <div class="flex justify-between items-center border-b border-zinc-800 pb-3 mb-4">
                 <h3 class="text-sm font-semibold font-mono text-white flex items-center gap-1.5">
-                  <Terminal class="w-4 h-4 text-indigo-400" />
+                  <Terminal class="w-4 h-4 text-zinc-400" />
                   Shorten long URL
                 </h3>
                 <button 
                   onClick={() => setShowCreateModal(false)}
-                  class="p-1 hover:bg-white/[0.04] text-slate-500 hover:text-white rounded-lg transition-colors"
+                  class="p-1 hover:bg-zinc-855 text-zinc-500 hover:text-zinc-200 rounded-lg transition-colors"
                 >
                   <X class="w-4 h-4" />
                 </button>
@@ -507,7 +505,7 @@ const Dashboard = () => {
 
               <form onSubmit={handleShorten} class="space-y-4 font-mono text-xs">
                 <div class="space-y-1.5 text-left">
-                  <label class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Long Destination URL</label>
+                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Long Destination URL</label>
                   <input
                     type="text"
                     required
@@ -519,7 +517,7 @@ const Dashboard = () => {
                 </div>
 
                 <div class="space-y-1.5 text-left">
-                  <label class="text-[10px] text-slate-500 uppercase tracking-wider font-semibold">Expiration Date (Optional)</label>
+                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Expiration Date (Optional)</label>
                   <input
                     type="datetime-local"
                     value={expiresAt}
@@ -529,7 +527,7 @@ const Dashboard = () => {
                 </div>
 
                 {createError && (
-                  <div class="p-3 bg-red-950/20 border border-red-500/10 text-red-400 rounded-lg text-[10px]">
+                  <div class="p-3 bg-rose-950/10 border border-rose-500/10 text-rose-400 rounded-lg text-[10px]">
                     {createError}
                   </div>
                 )}
@@ -548,7 +546,7 @@ const Dashboard = () => {
                     class="flex-1 saas-btn-primary py-2"
                   >
                     {createLoading ? (
-                      <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto"></div>
+                      <div class="w-4 h-4 border-2 border-zinc-950/30 border-t-zinc-950 rounded-full animate-spin mx-auto"></div>
                     ) : (
                       'Generate Code'
                     )}

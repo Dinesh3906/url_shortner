@@ -27,25 +27,25 @@ const Navbar = () => {
   ];
 
   return (
-    <nav class="sticky top-0 z-50 border-b border-white/[0.06] bg-[#05070d]/75 backdrop-blur-md">
+    <nav class="sticky top-0 z-50 border-b border-zinc-800/80 bg-[#09090b]/80 backdrop-blur-md">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-14">
           
           {/* Left: Brand Logo & Status Badge */}
           <div class="flex items-center gap-4">
             <Link to="/" class="flex items-center gap-2 group">
-              <div class="w-8 h-8 rounded-lg bg-indigo-600 flex items-center justify-center text-white border border-indigo-400/30 group-hover:bg-indigo-500 transition-colors">
-                <Link2 class="w-4.5 h-4.5 rotate-45" />
+              <div class="w-8 h-8 rounded-lg bg-zinc-900 flex items-center justify-center text-zinc-200 border border-zinc-800 group-hover:bg-zinc-800 transition-colors">
+                <Link2 class="w-4 h-4 rotate-45" />
               </div>
-              <span class="text-base font-semibold tracking-tight text-white font-mono">
+              <span class="text-sm font-semibold tracking-tight text-white font-mono">
                 ShortLink
               </span>
             </Link>
             
             {/* Status Badge */}
-            <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-indigo-500/5 border border-indigo-500/10 text-indigo-400/80 font-mono text-[9px] font-medium tracking-wide">
-              <span class="w-1 h-1 rounded-full bg-indigo-400 animate-pulse"></span>
-              URL Infrastructure
+            <span class="hidden sm:inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-400 font-mono text-[9px] font-medium tracking-wide">
+              <span class="w-1 h-1 rounded-full bg-emerald-500"></span>
+              API Infrastructure
             </span>
           </div>
 
@@ -146,13 +146,13 @@ const Navbar = () => {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            class="md:hidden border-b border-white/[0.06] bg-[#05070d]/95 px-2 pt-2 pb-4 space-y-1"
+            class="md:hidden border-b border-zinc-800 bg-[#09090b]/98 px-2 pt-2 pb-4 space-y-1"
           >
             <Link
               to="/"
               onClick={() => setMobileMenuOpen(false)}
               class={`block px-3 py-2 rounded-lg text-xs font-medium font-mono ${
-                isActive('/') ? 'text-white bg-white/[0.04]' : 'text-slate-400 hover:text-white'
+                isActive('/') ? 'text-white bg-zinc-900' : 'text-slate-400 hover:text-white'
               }`}
             >
               Home
@@ -167,7 +167,7 @@ const Navbar = () => {
                   to={linkPath}
                   onClick={() => setMobileMenuOpen(false)}
                   class={`block px-3 py-2 rounded-lg text-xs font-medium font-mono ${
-                    isActive(link.path) ? 'text-white bg-white/[0.04]' : 'text-slate-400 hover:text-white'
+                    isActive(link.path) ? 'text-white bg-zinc-900' : 'text-slate-400 hover:text-white'
                   }`}
                 >
                   {link.name}
@@ -176,7 +176,7 @@ const Navbar = () => {
             })}
 
             {isAuthenticated ? (
-              <div class="border-t border-white/[0.06] my-2 pt-2 px-3">
+              <div class="border-t border-zinc-800 my-2 pt-2 px-3">
                 <p class="text-slate-500 text-xs font-mono mb-3 flex items-center gap-1.5">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                   Signed in as <strong class="text-slate-300">{user?.username}</strong>
@@ -185,24 +185,24 @@ const Navbar = () => {
                   <Link
                     to="/dashboard"
                     onClick={() => setMobileMenuOpen(false)}
-                    class="flex-1 text-center py-2 bg-white/[0.02] border border-white/[0.08] text-slate-300 rounded-lg text-xs font-mono font-medium"
+                    class="flex-1 text-center py-2 bg-zinc-900 border border-zinc-800 text-slate-300 rounded-lg text-xs font-mono font-medium"
                   >
                     Console
                   </Link>
                   <button
                     onClick={handleLogout}
-                    class="flex-1 py-2 bg-red-950/20 border border-red-900/30 text-red-400 rounded-lg text-xs font-mono font-medium"
+                    class="flex-1 py-2 bg-rose-950/20 border border-rose-900/30 text-rose-400 rounded-lg text-xs font-mono font-medium"
                   >
                     Logout
                   </button>
                 </div>
               </div>
             ) : (
-              <div class="pt-2 border-t border-white/[0.06] space-y-2 px-3">
+              <div class="pt-2 border-t border-zinc-800 space-y-2 px-3">
                 <Link
                   to="/login"
                   onClick={() => setMobileMenuOpen(false)}
-                  class="block w-full text-center py-2 border border-white/[0.08] text-slate-400 hover:text-white rounded-lg text-xs font-mono font-medium transition-colors"
+                  class="block w-full text-center py-2 border border-zinc-800 text-slate-400 hover:text-white rounded-lg text-xs font-mono font-medium transition-colors"
                 >
                   Sign In
                 </Link>

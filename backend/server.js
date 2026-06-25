@@ -14,6 +14,7 @@ const redirectRoutes = require('./routes/redirectRoutes');
 
 // Initialize app
 const app = express();
+app.set('trust proxy', 1); // Trust first proxy for Vercel/Cloudflare rate limiting
 const PORT = process.env.PORT || 5000;
 
 // Connect to MongoDB (non-blocking on startup, query buffering handles requests)

@@ -18,6 +18,19 @@ const connectDB = async () => {
     console.warn('Auto-correcting MONGO_URI protocol typo from mongodb:// to mongodb+srv://');
     uri = uri.replace('mongodb://', 'mongodb+srv://');
   }
+  if (uri.startsWith('mongodb+srv://') && uri.includes('.mongodb.net')) {
+    // Strip explicit port numbers from the hostname part (e.g. :27017) since they are illegal in SRV URIs
+    const atIndex = uri.lastIndexOf('@');
+    if (atIndex !== -1) {
+      const credentialsPart = uri.substring(0, atIndex + 1);
+      let hostDbPart = uri.substring(atIndex + 1);
+      if (/:[0-9]+/.test(hostDbPart)) {
+        console.warn('Auto-correcting: stripping port number from mongodb+srv URI hostname');
+        hostDbPart = hostDbPart.replace(/:[0-9]+/, '');
+        uri = credentialsPart + hostDbPart;
+      }
+    }
+  }
   const options = {
     autoIndex: true,
     serverSelectionTimeoutMS: 5000, // Fail fast if Atlas firewall blocks the IP

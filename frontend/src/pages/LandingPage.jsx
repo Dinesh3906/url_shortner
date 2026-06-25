@@ -125,7 +125,7 @@ const LandingPage = () => {
         <div class="lg:col-span-6 space-y-6 text-left">
           <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10b981]/5 border border-[#10b981]/15 text-[#10b981] font-mono text-[10px] uppercase tracking-wider">
             <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse"></span>
-            <span class="text-[#10b981]/90 font-semibold">URL Infrastructure</span>
+            <span class="text-[#10b981]/90 font-semibold font-mono">URL Infrastructure</span>
             <span class="text-zinc-700">|</span>
             <span class="text-zinc-400 font-sans">Built for speed & scale</span>
           </div>
@@ -150,7 +150,7 @@ const LandingPage = () => {
                 <Link to="/signup" class="px-5 py-2.5 bg-[#4f46e5] hover:bg-[#5f56f3] text-white font-semibold text-xs rounded-lg transition-all flex items-center gap-1.5 shadow-sm shadow-[#4f46e5]/10">
                   Get started for free
                 </Link>
-                <Link to="/login" class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white font-medium text-xs rounded-lg border border-zinc-800/80 transition-all">
+                <Link to="/login" class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white font-semibold text-xs rounded-lg border border-zinc-800/80 transition-all">
                   View API docs
                 </Link>
               </>
@@ -162,36 +162,40 @@ const LandingPage = () => {
         <div class="lg:col-span-6">
           <div class="saas-card bg-[#121624] border-zinc-800/80 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
             <form onSubmit={handleSubmit} class="space-y-4">
-              <div class="relative flex items-center border border-zinc-800 bg-[#0b0e17] rounded-xl px-4 py-3 focus-within:border-zinc-700/80 transition-all">
-                <Link2 class="w-4 h-4 text-zinc-500 mr-3 flex-shrink-0" />
-                <input
-                  type="text"
-                  placeholder="Paste your long URL"
-                  value={originalUrl}
-                  onChange={(e) => {
-                    setOriginalUrl(e.target.value);
-                    setError('');
-                  }}
-                  class="bg-transparent border-0 p-0 text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-0 w-full"
-                />
-                <button
-                  type="submit"
-                  disabled={loading}
-                  class="ml-3 px-5 py-2 bg-[#4f46e5] hover:bg-[#5f56f3] text-white font-semibold text-xs rounded-lg transition-colors flex items-center gap-1.5 flex-shrink-0 disabled:opacity-50"
-                >
-                  {loading ? (
-                    <div class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                  ) : (
-                    <>
-                      Shorten
-                      <ArrowRight class="w-3.5 h-3.5" />
-                    </>
-                  )}
-                </button>
+              <div class="border border-zinc-800 bg-[#0b0e17] rounded-xl p-4 focus-within:border-zinc-700/85 transition-all space-y-3">
+                <div class="flex items-center justify-between">
+                  <div class="flex items-center gap-2.5 flex-grow min-w-0">
+                    <Link2 class="w-4 h-4 text-zinc-550 shrink-0" />
+                    <input
+                      type="text"
+                      placeholder="Paste your long URL"
+                      value={originalUrl}
+                      onChange={(e) => {
+                        setOriginalUrl(e.target.value);
+                        setError('');
+                      }}
+                      class="bg-transparent border-0 p-0 text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-0 w-full"
+                    />
+                  </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    class="ml-3 px-5 py-2 bg-[#4f46e5] hover:bg-[#5f56f3] text-white font-semibold text-xs rounded-lg transition-colors flex items-center gap-1.5 shrink-0 disabled:opacity-55 cursor-pointer shadow-md shadow-indigo-950/20 active:scale-[0.98]"
+                  >
+                    {loading ? (
+                      <div class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                    ) : (
+                      <>
+                        Shorten
+                        <ArrowRight class="w-3.5 h-3.5" />
+                      </>
+                    )}
+                  </button>
+                </div>
+                <div class="text-[10px] text-zinc-500 font-mono select-all break-all px-0.5 leading-normal">
+                  https://www.example.com/very/long/path?with=query&params=true
+                </div>
               </div>
-              <p class="text-[10px] text-zinc-500 font-mono select-all break-all px-1 leading-normal">
-                https://www.example.com/very/long/path?with=query&params=true
-              </p>
 
               {/* Collapsible Expiration Picker */}
               <div class="px-1">
@@ -199,7 +203,7 @@ const LandingPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowExpiry(true)}
-                    class="text-[10px] text-zinc-500 hover:text-zinc-400 flex items-center gap-1.5 transition-colors font-medium animate-fade-in"
+                    class="text-[10px] text-zinc-500 hover:text-zinc-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer animate-fade-in"
                   >
                     <Clock class="w-3 h-3" />
                     Add link expiration date
@@ -220,7 +224,7 @@ const LandingPage = () => {
                         setShowExpiry(false);
                         setExpiresAt('');
                       }}
-                      class="text-zinc-500 hover:text-zinc-350 ml-1 text-xs"
+                      class="text-zinc-500 hover:text-zinc-350 ml-1 text-xs cursor-pointer"
                     >
                       ✕
                     </button>
@@ -230,7 +234,7 @@ const LandingPage = () => {
             </form>
 
             {error && (
-              <div class="mt-4 p-3 bg-rose-500/5 border border-rose-500/10 text-rose-450 rounded-lg text-xs text-left font-mono">
+              <div class="mt-4 p-3 bg-rose-500/5 border border-rose-500/10 text-rose-455 rounded-lg text-xs text-left font-mono">
                 {error}
               </div>
             )}
@@ -246,7 +250,7 @@ const LandingPage = () => {
 
               <div class="flex items-center justify-between bg-[#0b0e17] border border-zinc-800/80 rounded-xl p-3 sm:p-4 gap-3">
                 <div class="flex items-center gap-2 min-w-0">
-                  <span class="text-sm font-semibold text-zinc-200 truncate select-all">
+                  <span class="text-sm font-semibold text-zinc-200 truncate select-all font-mono">
                     {displayedShortUrl}
                   </span>
                   {copied && (
@@ -260,7 +264,7 @@ const LandingPage = () => {
                   <button
                     type="button"
                     onClick={handleCopy}
-                    class="p-2 bg-[#121624] hover:bg-zinc-850 text-zinc-400 hover:text-white rounded-lg border border-zinc-800/80 transition-colors"
+                    class="p-2 bg-[#121624] hover:bg-zinc-850 text-zinc-400 hover:text-white rounded-lg border border-zinc-800/80 transition-colors cursor-pointer"
                     title="Copy URL"
                   >
                     <Copy class="w-3.5 h-3.5" />
@@ -269,7 +273,7 @@ const LandingPage = () => {
                   <button
                     type="button"
                     onClick={() => setShowQr(!showQr)}
-                    class={`p-2 rounded-lg border transition-colors ${
+                    class={`p-2 rounded-lg border transition-colors cursor-pointer ${
                       showQr 
                         ? 'bg-zinc-800 border-zinc-700 text-white' 
                         : 'bg-[#121624] border-zinc-800/80 text-zinc-400 hover:text-white hover:bg-zinc-850'
@@ -282,7 +286,7 @@ const LandingPage = () => {
                   <button
                     type="button"
                     onClick={handleShare}
-                    class="p-2 bg-[#121624] hover:bg-zinc-850 text-zinc-400 hover:text-white rounded-lg border border-zinc-800/80 transition-colors"
+                    class="p-2 bg-[#121624] hover:bg-zinc-850 text-zinc-400 hover:text-white rounded-lg border border-zinc-800/80 transition-colors cursor-pointer"
                     title="Share link"
                   >
                     <Share2 class="w-3.5 h-3.5" />
@@ -345,7 +349,7 @@ const LandingPage = () => {
           
           {/* Feature 1 */}
           <div class="flex gap-4 md:px-4">
-            <div class="w-8 h-8 rounded-lg bg-[#10b981]/10 border border-[#10b981]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div class="w-8 h-8 rounded-lg bg-[#10b981]/10 border border-[#10b981]/20 flex items-center justify-center shrink-0 mt-0.5">
               <Zap class="w-4 h-4 text-[#10b981]" />
             </div>
             <div>
@@ -356,7 +360,7 @@ const LandingPage = () => {
           
           {/* Feature 2 */}
           <div class="flex gap-4 md:px-4">
-            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center shrink-0 mt-0.5">
               <Shield class="w-4 h-4 text-indigo-400" />
             </div>
             <div>
@@ -367,7 +371,7 @@ const LandingPage = () => {
           
           {/* Feature 3 */}
           <div class="flex gap-4 md:px-4">
-            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center shrink-0 mt-0.5">
               <BarChart3 class="w-4 h-4 text-indigo-400" />
             </div>
             <div>
@@ -378,7 +382,7 @@ const LandingPage = () => {
           
           {/* Feature 4 */}
           <div class="flex gap-4 md:px-4">
-            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center flex-shrink-0 mt-0.5 font-mono text-xs font-bold text-[#4f46e5]">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center shrink-0 mt-0.5 font-mono text-xs font-bold text-[#4f46e5]">
               &lt;/&gt;
             </div>
             <div>
@@ -410,7 +414,7 @@ const LandingPage = () => {
             </div>
             <div>
               <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">+2.4B</div>
-              <div class="text-[11px] text-zinc-500 font-sans">Links created</div>
+              <div class="text-[11px] text-zinc-550 font-sans">Links created</div>
             </div>
           </div>
 
@@ -421,18 +425,18 @@ const LandingPage = () => {
             </div>
             <div>
               <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">+5.6B</div>
-              <div class="text-[11px] text-zinc-500 font-sans">Clicks tracked</div>
+              <div class="text-[11px] text-zinc-550 font-sans">Clicks tracked</div>
             </div>
           </div>
 
           {/* Stat 3 */}
           <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
-            <div class="w-8 h-8 rounded-lg bg-blue-505/10 border border-blue-505/20 flex items-center justify-center">
+            <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center">
               <Globe class="w-4 h-4 text-blue-400" />
             </div>
             <div>
               <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">180+</div>
-              <div class="text-[11px] text-zinc-500 font-sans">Countries served</div>
+              <div class="text-[11px] text-zinc-550 font-sans">Countries served</div>
             </div>
           </div>
 
@@ -443,7 +447,7 @@ const LandingPage = () => {
             </div>
             <div>
               <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">&lt;15ms</div>
-              <div class="text-[11px] text-zinc-500 font-sans">Avg. redirect time</div>
+              <div class="text-[11px] text-zinc-550 font-sans">Avg. redirect time</div>
             </div>
           </div>
 

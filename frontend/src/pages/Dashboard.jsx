@@ -158,40 +158,40 @@ const Dashboard = () => {
   );
 
   return (
-    <div class="min-h-[calc(100vh-3.5rem)] flex flex-col md:flex-row">
+    <div className="min-h-[calc(100vh-3.5rem)] flex flex-col md:flex-row">
       
       {/* Sidebar Console Navigation */}
-      <aside class="w-full md:w-64 border-b md:border-b-0 md:border-r border-zinc-200 bg-zinc-50 p-4 shrink-0 flex flex-col gap-6">
+      <aside className="w-full md:w-64 border-b md:border-b-0 md:border-r border-zinc-200 bg-zinc-50 p-4 shrink-0 flex flex-col gap-6">
         
         {/* User Workspace Info */}
-        <div class="px-2 py-1 flex items-center justify-between">
-          <div class="flex items-center gap-2">
-            <div class="w-2 h-2 rounded bg-zinc-400"></div>
-            <span class="text-xs font-mono font-bold tracking-tight text-zinc-800 uppercase">Console Workspace</span>
+        <div className="px-2 py-1 flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className="w-2 h-2 rounded bg-zinc-400"></div>
+            <span className="text-xs font-mono font-bold tracking-tight text-zinc-800 uppercase">Console Workspace</span>
           </div>
         </div>
 
         {/* Console Action: Create Link Button */}
         <button 
           onClick={() => setShowCreateModal(true)}
-          class="saas-btn-primary flex items-center justify-center gap-1.5 font-sans text-xs py-2 w-full shadow-md shadow-indigo-100"
+          className="saas-btn-primary flex items-center justify-center gap-1.5 font-sans text-xs py-2 w-full shadow-md shadow-indigo-100"
         >
-          <Plus class="w-3.5 h-3.5" />
+          <Plus className="w-3.5 h-3.5" />
           Create Link
         </button>
 
         {/* Sidebar Nav Items */}
-        <nav class="flex flex-col gap-1">
+        <nav className="flex flex-col gap-1">
           {[
-            { id: 'overview', name: 'Overview', icon: <LayoutGrid class="w-4 h-4" /> },
-            { id: 'links', name: 'Links', icon: <Link2 class="w-4 h-4" /> },
-            { id: 'api', name: 'API Keys', icon: <Key class="w-4 h-4" /> },
-            { id: 'settings', name: 'Settings', icon: <Settings class="w-4 h-4" /> }
+            { id: 'overview', name: 'Overview', icon: <LayoutGrid className="w-4 h-4" /> },
+            { id: 'links', name: 'Links', icon: <Link2 className="w-4 h-4" /> },
+            { id: 'api', name: 'API Keys', icon: <Key className="w-4 h-4" /> },
+            { id: 'settings', name: 'Settings', icon: <Settings className="w-4 h-4" /> }
           ].map((item) => (
             <button
               key={item.id}
               onClick={() => setActiveTab(item.id)}
-              class={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-sans font-semibold transition-colors text-left ${
+              className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-sans font-semibold transition-colors text-left ${
                 activeTab === item.id 
                   ? 'bg-white text-zinc-900 border border-zinc-200 shadow-sm' 
                   : 'text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100'
@@ -205,41 +205,41 @@ const Dashboard = () => {
       </aside>
 
       {/* Main Console Workspace */}
-      <main class="flex-1 p-6 md:p-8 overflow-y-auto space-y-8">
+      <main className="flex-1 p-6 md:p-8 overflow-y-auto space-y-8">
         
         {/* Tab 1: OVERVIEW */}
         {activeTab === 'overview' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} class="space-y-8">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
             <div>
-              <h1 class="text-xl font-semibold tracking-tight text-zinc-900 font-sans">Overview</h1>
-              <p class="text-xs text-zinc-500 mt-1 font-mono">Consolidated traffic and service metrics</p>
+              <h1 className="text-xl font-semibold tracking-tight text-zinc-900 font-sans">Overview</h1>
+              <p className="text-xs text-zinc-500 mt-1 font-mono">Consolidated traffic and service metrics</p>
             </div>
 
             {/* Metrics Grid */}
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
               {[
                 { label: 'Total Short Links', val: totalUrls, color: 'text-zinc-900' },
                 { label: 'Total Redirection Clicks', val: totalClicks.toLocaleString(), color: 'text-zinc-900' },
                 { label: 'Active Link Interfaces', val: activeUrls, color: 'text-zinc-900' }
               ].map((stat, idx) => (
-                <div key={idx} class="saas-card relative overflow-hidden p-5">
-                  <div class="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</div>
-                  <div class={`text-2xl font-bold mt-2 font-mono ${stat.color}`}>{stat.val}</div>
+                <div key={idx} className="saas-card relative overflow-hidden p-5">
+                  <div className="text-[10px] font-mono text-zinc-500 uppercase tracking-wider">{stat.label}</div>
+                  <div className={`text-2xl font-bold mt-2 font-mono ${stat.color}`}>{stat.val}</div>
                 </div>
               ))}
             </div>
 
             {/* System Info card */}
-            <div class="saas-card space-y-4">
-              <h3 class="text-sm font-semibold font-mono text-zinc-900">System Architecture Status</h3>
-              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-zinc-600">
-                <div class="flex items-center justify-between p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
+            <div className="saas-card space-y-4">
+              <h3 className="text-sm font-semibold font-mono text-zinc-900">System Architecture Status</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs font-mono text-zinc-600">
+                <div className="flex items-center justify-between p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
                   <span>Atomic Sequence Generator:</span>
-                  <span class="status-badge status-badge-active">Online</span>
+                  <span className="status-badge status-badge-active">Online</span>
                 </div>
-                <div class="flex items-center justify-between p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
+                <div className="flex items-center justify-between p-3 bg-zinc-50 border border-zinc-200 rounded-lg">
                   <span>Redis Cache Resolution:</span>
-                  <span class="status-badge status-badge-active">Active</span>
+                  <span className="status-badge status-badge-active">Active</span>
                 </div>
               </div>
             </div>
@@ -248,60 +248,60 @@ const Dashboard = () => {
 
         {/* Tab 2: LINKS */}
         {activeTab === 'links' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} class="space-y-6">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             
             {/* Header Area */}
-            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
               <div>
-                <h1 class="text-xl font-semibold tracking-tight text-zinc-900 font-sans">Links</h1>
-                <p class="text-xs text-zinc-500 mt-1 font-mono">Manage shortening interfaces and query endpoints</p>
+                <h1 className="text-xl font-semibold tracking-tight text-zinc-900 font-sans">Links</h1>
+                <p className="text-xs text-zinc-500 mt-1 font-mono">Manage shortening interfaces and query endpoints</p>
               </div>
             </div>
 
             {/* URL List Container */}
-            <div class="saas-card relative overflow-hidden p-0">
+            <div className="saas-card relative overflow-hidden p-0">
               
               {/* Header Bar search bar */}
-              <div class="p-4 flex items-center justify-between gap-4 border-b border-zinc-200">
-                <div class="relative w-full sm:w-72">
-                  <Search class="absolute inset-y-0 left-3 w-4 h-4 text-zinc-400 my-auto" />
+              <div className="p-4 flex items-center justify-between gap-4 border-b border-zinc-200">
+                <div className="relative w-full sm:w-72">
+                  <Search className="absolute inset-y-0 left-3 w-4 h-4 text-zinc-400 my-auto" />
                   <input
                     type="text"
                     placeholder="Search shortcode or destination..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    class="w-full saas-input pl-9 text-xs"
+                    className="w-full saas-input pl-9 text-xs"
                   />
                 </div>
               </div>
 
               {loading ? (
-                <div class="py-20 text-center">
-                  <div class="w-8 h-8 border-2 border-zinc-200 border-t-zinc-500 rounded-full animate-spin mx-auto"></div>
-                  <p class="text-xs text-zinc-500 mt-4 font-mono">Querying links from cluster...</p>
+                <div className="py-20 text-center">
+                  <div className="w-8 h-8 border-2 border-zinc-200 border-t-zinc-500 rounded-full animate-spin mx-auto"></div>
+                  <p className="text-xs text-zinc-500 mt-4 font-mono">Querying links from cluster...</p>
                 </div>
               ) : error ? (
-                <div class="py-20 text-center text-red-500 flex flex-col items-center justify-center gap-2 font-mono text-xs">
-                  <AlertCircle class="w-6 h-6" />
+                <div className="py-20 text-center text-red-500 flex flex-col items-center justify-center gap-2 font-mono text-xs">
+                  <AlertCircle className="w-6 h-6" />
                   <p>{error}</p>
                 </div>
               ) : filteredUrls.length === 0 ? (
-                <div class="py-20 text-center text-zinc-500 space-y-3 font-mono text-xs">
-                  <p class="font-medium text-zinc-650">No links resolved</p>
-                  <p class="text-[10px] text-zinc-450">
+                <div className="py-20 text-center text-zinc-500 space-y-3 font-mono text-xs">
+                  <p className="font-medium text-zinc-650">No links resolved</p>
+                  <p className="text-[10px] text-zinc-450">
                     {searchQuery ? 'Adjust your search queries' : 'Launch your first shortened URL using the "Create Link" button'}
                   </p>
                 </div>
               ) : (
-                <div class="overflow-x-auto font-mono">
-                  <table class="w-full min-w-[700px] border-collapse">
+                <div className="overflow-x-auto font-mono">
+                  <table className="w-full min-w-[700px] border-collapse">
                     <thead>
-                      <tr class="bg-zinc-50">
-                        <th class="enterprise-table-header w-[35%]">Destination URL</th>
-                        <th class="enterprise-table-header w-[25%]">Short URL</th>
-                        <th class="enterprise-table-header w-[15%]">Created</th>
-                        <th class="enterprise-table-header text-center w-[12%]">Clicks</th>
-                        <th class="enterprise-table-header text-center w-[13%]">Actions</th>
+                      <tr className="bg-zinc-50">
+                        <th className="enterprise-table-header w-[35%]">Destination URL</th>
+                        <th className="enterprise-table-header w-[25%]">Short URL</th>
+                        <th className="enterprise-table-header w-[15%]">Created</th>
+                        <th className="enterprise-table-header text-center w-[12%]">Clicks</th>
+                        <th className="enterprise-table-header text-center w-[13%]">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -311,16 +311,16 @@ const Dashboard = () => {
                         const displayDest = url.originalUrl.replace(/https?:\/\/(www\.)?/, '');
                         
                         return (
-                          <tr key={url._id} class="hover:bg-zinc-50/50 transition-colors border-b border-zinc-100">
+                          <tr key={url._id} className="hover:bg-zinc-50/50 transition-colors border-b border-zinc-100">
                             {/* Destination */}
-                            <td class="enterprise-table-cell max-w-[250px]">
-                              <div class="flex flex-col gap-1">
-                                <span class="truncate font-mono text-xs text-zinc-600 block" title={url.originalUrl}>
+                            <td className="enterprise-table-cell max-w-[250px]">
+                              <div className="flex flex-col gap-1">
+                                <span className="truncate font-mono text-xs text-zinc-600 block" title={url.originalUrl}>
                                   {displayDest}
                                 </span>
                                 {url.expiresAt && (
-                                  <span class={`inline-flex items-center gap-1 text-[9px] font-mono ${isExpired ? 'text-rose-600' : 'text-amber-600'}`}>
-                                    <Calendar class="w-3 h-3" />
+                                  <span className={`inline-flex items-center gap-1 text-[9px] font-mono ${isExpired ? 'text-rose-600' : 'text-amber-600'}`}>
+                                    <Calendar className="w-3 h-3" />
                                     {isExpired ? 'Expired' : `Expires: ${new Date(url.expiresAt).toLocaleDateString()}`}
                                   </span>
                                 )}
@@ -328,52 +328,52 @@ const Dashboard = () => {
                             </td>
                             
                             {/* Short URL */}
-                            <td class="enterprise-table-cell">
-                              <div class="flex items-center gap-1.5">
+                            <td className="enterprise-table-cell">
+                              <div className="flex items-center gap-1.5">
                                 <a
                                   href={url.shortUrl}
                                   target="_blank"
                                   rel="noreferrer"
-                                  class="text-zinc-800 hover:text-[#4f46e5] font-semibold font-mono text-xs flex items-center gap-1"
+                                  className="text-zinc-800 hover:text-[#4f46e5] font-semibold font-mono text-xs flex items-center gap-1"
                                 >
                                   /{url.shortCode}
-                                  <ExternalLink class="w-3 h-3 text-zinc-400" />
+                                  <ExternalLink className="w-3 h-3 text-zinc-400" />
                                 </a>
                                 <button
                                   onClick={() => handleCopy(url._id, url.shortUrl)}
-                                  class="p-1 text-zinc-400 hover:text-zinc-600 rounded transition-colors"
+                                  className="p-1 text-zinc-400 hover:text-zinc-600 rounded transition-colors"
                                 >
-                                  {copiedId === url._id ? <Check class="w-3.5 h-3.5 text-emerald-600" /> : <Copy class="w-3 h-3" />}
+                                  {copiedId === url._id ? <Check className="w-3.5 h-3.5 text-emerald-600" /> : <Copy className="w-3 h-3" />}
                                 </button>
                               </div>
                             </td>
 
                             {/* Created */}
-                            <td class="enterprise-table-cell font-mono text-xs text-zinc-500">
+                            <td className="enterprise-table-cell font-mono text-xs text-zinc-500">
                               {new Date(url.createdAt).toLocaleDateString()}
                             </td>
 
                             {/* Clicks */}
-                            <td class="enterprise-table-cell text-center font-mono font-bold text-zinc-900 text-xs">
+                            <td className="enterprise-table-cell text-center font-mono font-bold text-zinc-900 text-xs">
                               {url.clicks >= 1000 ? `${(url.clicks / 1000).toFixed(1)}k` : url.clicks}
                             </td>
 
                             {/* Actions */}
-                            <td class="enterprise-table-cell">
-                              <div class="flex items-center justify-center gap-1.5">
+                            <td className="enterprise-table-cell">
+                              <div className="flex items-center justify-center gap-1.5">
                                 <button
                                   onClick={() => navigate(`/analytics/${url._id}`)}
-                                  class="p-1.5 bg-white border border-zinc-200 text-zinc-500 hover:text-zinc-800 hover:bg-zinc-50 rounded-lg transition-colors flex items-center justify-center"
+                                  className="p-1.5 bg-white border border-zinc-200 text-zinc-500 hover:text-zinc-800 hover:bg-zinc-50 rounded-lg transition-colors flex items-center justify-center"
                                   title="Analytics"
                                 >
-                                  <BarChart2 class="w-3.5 h-3.5" />
+                                  <BarChart2 className="w-3.5 h-3.5" />
                                 </button>
                                 <button
                                   onClick={() => handleDelete(url._id)}
-                                  class="p-1.5 bg-white border border-zinc-200 text-rose-600 hover:bg-rose-50 hover:border-rose-300 rounded-lg transition-colors flex items-center justify-center"
+                                  className="p-1.5 bg-white border border-zinc-200 text-rose-600 hover:bg-rose-50 hover:border-rose-300 rounded-lg transition-colors flex items-center justify-center"
                                   title="Delete"
                                 >
-                                  <Trash2 class="w-3.5 h-3.5" />
+                                  <Trash2 className="w-3.5 h-3.5" />
                                 </button>
                               </div>
                             </td>
@@ -390,60 +390,60 @@ const Dashboard = () => {
 
         {/* Tab 3: API KEYS */}
         {activeTab === 'api' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} class="space-y-6">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             <div>
-              <h1 class="text-xl font-semibold tracking-tight text-zinc-900 font-sans">API Credentials</h1>
-              <p class="text-xs text-zinc-500 mt-1 font-mono">Generate tokens to programmatically shorten links via standard cURL requests</p>
+              <h1 className="text-xl font-semibold tracking-tight text-zinc-900 font-sans">API Credentials</h1>
+              <p className="text-xs text-zinc-500 mt-1 font-mono">Generate tokens to programmatically shorten links via standard cURL requests</p>
             </div>
 
             {/* Key generator form */}
-            <div class="saas-card">
-              <h3 class="text-sm font-semibold font-mono text-zinc-800 mb-3">Generate API Token</h3>
-              <form onSubmit={handleCreateApiKey} class="flex flex-col sm:flex-row gap-2 max-w-lg">
+            <div className="saas-card">
+              <h3 className="text-sm font-semibold font-mono text-zinc-800 mb-3">Generate API Token</h3>
+              <form onSubmit={handleCreateApiKey} className="flex flex-col sm:flex-row gap-2 max-w-lg">
                 <input
                   type="text"
                   required
                   placeholder="e.g. Production App Key"
                   value={newKeyName}
                   onChange={(e) => setNewKeyName(e.target.value)}
-                  class="flex-1 saas-input py-2! text-xs"
+                  className="flex-1 saas-input py-2! text-xs"
                 />
-                <button type="submit" class="saas-btn-primary py-2! text-xs font-sans">
+                <button type="submit" className="saas-btn-primary py-2! text-xs font-sans">
                   Generate Key
                 </button>
               </form>
 
               {/* Show generated key warning */}
               {generatedKey && (
-                <div class="mt-4 p-4 bg-zinc-50 border border-zinc-200 rounded space-y-2 font-mono text-xs text-left">
-                  <div class="text-[10px] text-zinc-500 uppercase font-semibold">Copy your API Key now:</div>
-                  <div class="flex items-center justify-between gap-3 bg-white border border-zinc-200 rounded p-2.5">
-                    <span class="text-zinc-800 font-bold select-all break-all">{generatedKey}</span>
+                <div className="mt-4 p-4 bg-zinc-50 border border-zinc-200 rounded space-y-2 font-mono text-xs text-left">
+                  <div className="text-[10px] text-zinc-500 uppercase font-semibold">Copy your API Key now:</div>
+                  <div className="flex items-center justify-between gap-3 bg-white border border-zinc-200 rounded p-2.5">
+                    <span className="text-zinc-800 font-bold select-all break-all">{generatedKey}</span>
                     <button 
                       onClick={() => handleCopy('newkey', generatedKey)}
-                      class="p-1.5 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
+                      className="p-1.5 text-zinc-400 hover:text-zinc-700 rounded transition-colors shrink-0"
                     >
-                      {copiedId === 'newkey' ? <Check class="w-4 h-4 text-emerald-600" /> : <Copy class="w-3.5 h-3.5" />}
+                      {copiedId === 'newkey' ? <Check className="w-4 h-4 text-emerald-600" /> : <Copy className="w-3.5 h-3.5" />}
                     </button>
                   </div>
-                  <p class="text-[9px] text-amber-600">⚠️ Save this key securely. It cannot be shown again.</p>
+                  <p className="text-[9px] text-amber-600">⚠️ Save this key securely. It cannot be shown again.</p>
                 </div>
               )}
             </div>
 
             {/* List keys */}
-            <div class="saas-card p-0 overflow-hidden">
-              <div class="p-4 border-b border-zinc-200">
-                <h3 class="text-sm font-semibold font-mono text-zinc-800">Active Tokens</h3>
+            <div className="saas-card p-0 overflow-hidden">
+              <div className="p-4 border-b border-zinc-200">
+                <h3 className="text-sm font-semibold font-mono text-zinc-800">Active Tokens</h3>
               </div>
-              <div class="divide-y divide-zinc-200 font-mono text-xs">
+              <div className="divide-y divide-zinc-200 font-mono text-xs">
                 {apiKeys.map((key) => (
-                  <div key={key.id} class="p-4 flex items-center justify-between gap-4">
+                  <div key={key.id} className="p-4 flex items-center justify-between gap-4">
                     <div>
-                      <div class="font-bold text-zinc-700">{key.name}</div>
-                      <div class="text-[10px] text-zinc-500 mt-0.5">{key.token}</div>
+                      <div className="font-bold text-zinc-700">{key.name}</div>
+                      <div className="text-[10px] text-zinc-500 mt-0.5">{key.token}</div>
                     </div>
-                    <div class="text-[10px] text-zinc-500">
+                    <div className="text-[10px] text-zinc-500">
                       Created: {key.created}
                     </div>
                   </div>
@@ -455,24 +455,24 @@ const Dashboard = () => {
 
         {/* Tab 4: SETTINGS */}
         {activeTab === 'settings' && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} class="space-y-6">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
             <div>
-              <h1 class="text-xl font-semibold tracking-tight text-zinc-900 font-sans">Settings</h1>
-              <p class="text-xs text-zinc-500 mt-1 font-mono">Workspace settings and database configuration</p>
+              <h1 className="text-xl font-semibold tracking-tight text-zinc-900 font-sans">Settings</h1>
+              <p className="text-xs text-zinc-500 mt-1 font-mono">Workspace settings and database configuration</p>
             </div>
 
-            <div class="saas-card space-y-4">
-              <h3 class="text-sm font-semibold font-mono text-zinc-850">Database Namespace</h3>
-              <div class="space-y-3 font-mono text-xs max-w-md">
-                <div class="space-y-1">
-                  <div class="text-[10px] text-zinc-500">Active Connection Namespace</div>
-                  <div class="p-3 bg-zinc-50 border border-zinc-200 rounded-lg text-zinc-700 break-all select-all font-semibold">
+            <div className="saas-card space-y-4">
+              <h3 className="text-sm font-semibold font-mono text-zinc-850">Database Namespace</h3>
+              <div className="space-y-3 font-mono text-xs max-w-md">
+                <div className="space-y-1">
+                  <div className="text-[10px] text-zinc-500">Active Connection Namespace</div>
+                  <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg text-zinc-700 break-all select-all font-semibold">
                     mongodb+srv://cluster0.egxrx3d.mongodb.net/shortlink
                   </div>
                 </div>
-                <div class="space-y-1">
-                  <div class="text-[10px] text-zinc-500">Cache Layer Host</div>
-                  <div class="p-3 bg-zinc-50 border border-zinc-200 rounded-lg text-zinc-700 break-all select-all font-semibold">
+                <div className="space-y-1">
+                  <div className="text-[10px] text-zinc-500">Cache Layer Host</div>
+                  <div className="p-3 bg-zinc-50 border border-zinc-200 rounded-lg text-zinc-700 break-all select-all font-semibold">
                     brilliant-abstracted-income-99971.db.redis.io:16979
                   </div>
                 </div>
@@ -486,14 +486,14 @@ const Dashboard = () => {
       {/* CREATE URL MODAL DIALOG */}
       <AnimatePresence>
         {showCreateModal && (
-          <div class="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
             {/* Backdrop */}
             <motion.div 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setShowCreateModal(false)}
-              class="fixed inset-0 bg-black/40 backdrop-blur-sm"
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm"
             />
             
             {/* Modal Box */}
@@ -501,76 +501,76 @@ const Dashboard = () => {
               initial={{ opacity: 0, scale: 0.95, y: 10 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 10 }}
-              class="saas-card w-full max-w-md relative z-10 p-6 bg-white border border-zinc-200 shadow-2xl"
+              className="saas-card w-full max-w-md relative z-10 p-6 bg-white border border-zinc-200 shadow-2xl"
             >
-              <div class="flex justify-between items-center border-b border-zinc-200 pb-3 mb-4">
-                <h3 class="text-sm font-semibold font-mono text-zinc-800 flex items-center gap-1.5">
-                  <Terminal class="w-4 h-4 text-zinc-500" />
+              <div className="flex justify-between items-center border-b border-zinc-200 pb-3 mb-4">
+                <h3 className="text-sm font-semibold font-mono text-zinc-800 flex items-center gap-1.5">
+                  <Terminal className="w-4 h-4 text-zinc-500" />
                   Shorten long URL
                 </h3>
                 <button 
                   onClick={() => setShowCreateModal(false)}
-                  class="p-1 hover:bg-zinc-100 text-zinc-500 hover:text-zinc-850 rounded-lg transition-colors"
+                  className="p-1 hover:bg-zinc-100 text-zinc-500 hover:text-zinc-850 rounded-lg transition-colors"
                 >
-                  <X class="w-4 h-4" />
+                  <X className="w-4 h-4" />
                 </button>
               </div>
 
-              <form onSubmit={handleShorten} class="space-y-4 font-sans text-xs">
-                <div class="space-y-1.5 text-left">
-                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Long Destination URL</label>
+              <form onSubmit={handleShorten} className="space-y-4 font-sans text-xs">
+                <div className="space-y-1.5 text-left">
+                  <label className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Long Destination URL</label>
                   <input
                     type="text"
                     required
                     placeholder="https://example.com/deep/resource"
                     value={originalUrl}
                     onChange={(e) => setOriginalUrl(e.target.value)}
-                    class="w-full saas-input py-2!"
+                    className="w-full saas-input py-2!"
                   />
                 </div>
 
-                <div class="space-y-1.5 text-left">
-                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Custom Name (Optional)</label>
+                <div className="space-y-1.5 text-left">
+                  <label className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Custom Name (Optional)</label>
                   <input
                     type="text"
                     placeholder="e.g. my-custom-link"
                     value={customAlias}
                     onChange={(e) => setCustomAlias(e.target.value)}
-                    class="w-full saas-input py-2!"
+                    className="w-full saas-input py-2!"
                   />
                 </div>
 
-                <div class="space-y-1.5 text-left">
-                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Expiration Date (Optional)</label>
+                <div className="space-y-1.5 text-left">
+                  <label className="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Expiration Date (Optional)</label>
                   <input
                     type="datetime-local"
                     value={expiresAt}
                     onChange={(e) => setExpiresAt(e.target.value)}
-                    class="w-full saas-input py-2! cursor-pointer"
+                    className="w-full saas-input py-2! cursor-pointer"
                   />
                 </div>
 
                 {createError && (
-                  <div class="p-3 bg-rose-50 border border-rose-200 text-rose-650 rounded-lg text-[10px]">
+                  <div className="p-3 bg-rose-50 border border-rose-200 text-rose-650 rounded-lg text-[10px]">
                     {createError}
                   </div>
                 )}
 
-                <div class="flex gap-2 pt-2">
+                <div className="flex gap-2 pt-2">
                   <button 
                     type="button"
                     onClick={() => setShowCreateModal(false)}
-                    class="flex-1 saas-btn-secondary py-2"
+                    className="flex-1 saas-btn-secondary py-2"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
                     disabled={createLoading}
-                    class="flex-1 saas-btn-primary py-2"
+                    className="flex-1 saas-btn-primary py-2"
                   >
                     {createLoading ? (
-                      <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto"></div>
+                      <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin mx-auto"></div>
                     ) : (
                       'Generate Code'
                     )}

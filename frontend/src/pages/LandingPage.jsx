@@ -96,25 +96,25 @@ const LandingPage = () => {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.4 }}
-      class="max-w-2xl mx-auto px-4 sm:px-6 py-16 sm:py-24 font-sans"
+      className="max-w-2xl mx-auto px-4 sm:px-6 py-16 sm:py-24 font-sans"
     >
       {/* Hero — centered, simple */}
-      <div class="text-center space-y-4 mb-10">
-        <h1 class="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 leading-tight">
+      <div className="text-center space-y-4 mb-10">
+        <h1 className="text-3xl sm:text-4xl font-bold tracking-tight text-zinc-900 leading-tight">
           Make your links shorter
         </h1>
-        <p class="text-sm text-zinc-500 max-w-md mx-auto leading-relaxed">
+        <p className="text-sm text-zinc-500 max-w-md mx-auto leading-relaxed">
           Paste a long URL, get a short one. Track clicks, set expiry dates, or pick a custom name.
           Free, no sign-up needed.
         </p>
       </div>
 
       {/* Main shortener card */}
-      <div class="bg-white border border-zinc-200 rounded-2xl p-5 sm:p-7 shadow-sm">
-        <form onSubmit={handleSubmit} class="space-y-4">
+      <div className="bg-white border border-zinc-200 rounded-2xl p-5 sm:p-7 shadow-sm">
+        <form onSubmit={handleSubmit} className="space-y-4">
           {/* URL input row */}
-          <div class="flex items-center gap-2 border border-zinc-200 bg-zinc-50/60 rounded-xl px-4 py-3 focus-within:border-zinc-300 transition-colors">
-            <Link2 class="w-4 h-4 text-zinc-400 shrink-0" />
+          <div className="flex items-center gap-2 border border-zinc-200 bg-zinc-50/60 rounded-xl px-4 py-3 focus-within:border-zinc-300 transition-colors">
+            <Link2 className="w-4 h-4 text-zinc-400 shrink-0" />
             <input
               type="text"
               placeholder="Paste your link here..."
@@ -123,15 +123,15 @@ const LandingPage = () => {
                 setOriginalUrl(e.target.value);
                 setError('');
               }}
-              class="bg-transparent border-0 p-0 text-zinc-900 placeholder-zinc-400 text-sm focus:outline-none w-full"
+              className="bg-transparent border-0 p-0 text-zinc-900 placeholder-zinc-400 text-sm focus:outline-none w-full"
             />
             <button
               type="submit"
               disabled={loading}
-              class="ml-2 px-4 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium rounded-lg transition-colors shrink-0 disabled:opacity-50 cursor-pointer active:scale-[0.97]"
+              className="ml-2 px-4 py-1.5 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium rounded-lg transition-colors shrink-0 disabled:opacity-50 cursor-pointer active:scale-[0.97]"
             >
               {loading ? (
-                <div class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 'Shorten'
               )}
@@ -139,30 +139,30 @@ const LandingPage = () => {
           </div>
 
           {/* Optional fields — expiry and custom name */}
-          <div class="flex flex-wrap items-center gap-4 px-1">
+          <div className="flex flex-wrap items-center gap-4 px-1">
             <div>
               {!showExpiry ? (
                 <button
                   type="button"
                   onClick={() => setShowExpiry(true)}
-                  class="text-xs text-zinc-400 hover:text-zinc-600 flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="text-xs text-zinc-400 hover:text-zinc-600 flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
-                  <Clock class="w-3 h-3" />
+                  <Clock className="w-3 h-3" />
                   Set expiry
                 </button>
               ) : (
-                <div class="flex items-center gap-2 text-xs text-zinc-500">
-                  <Clock class="w-3 h-3 text-zinc-400" />
+                <div className="flex items-center gap-2 text-xs text-zinc-500">
+                  <Clock className="w-3 h-3 text-zinc-400" />
                   <input
                     type="datetime-local"
                     value={expiresAt}
                     onChange={(e) => setExpiresAt(e.target.value)}
-                    class="bg-white border border-zinc-200 text-zinc-700 rounded-md px-2 py-0.5 focus:outline-none text-[11px] cursor-pointer"
+                    className="bg-white border border-zinc-200 text-zinc-700 rounded-md px-2 py-0.5 focus:outline-none text-[11px] cursor-pointer"
                   />
                   <button
                     type="button"
                     onClick={() => { setShowExpiry(false); setExpiresAt(''); }}
-                    class="text-zinc-400 hover:text-zinc-600 text-xs cursor-pointer"
+                    className="text-zinc-400 hover:text-zinc-600 text-xs cursor-pointer"
                   >
                     ✕
                   </button>
@@ -175,25 +175,25 @@ const LandingPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowCustom(true)}
-                  class="text-xs text-zinc-400 hover:text-zinc-600 flex items-center gap-1.5 transition-colors cursor-pointer"
+                  className="text-xs text-zinc-400 hover:text-zinc-600 flex items-center gap-1.5 transition-colors cursor-pointer"
                 >
-                  <Link2 class="w-3 h-3" />
+                  <Link2 className="w-3 h-3" />
                   Custom name
                 </button>
               ) : (
-                <div class="flex items-center gap-2 text-xs text-zinc-500">
-                  <Link2 class="w-3 h-3 text-zinc-400" />
+                <div className="flex items-center gap-2 text-xs text-zinc-500">
+                  <Link2 className="w-3 h-3 text-zinc-400" />
                   <input
                     type="text"
                     placeholder="my-link"
                     value={customAlias}
                     onChange={(e) => setCustomAlias(e.target.value)}
-                    class="bg-white border border-zinc-200 text-zinc-700 rounded-md px-2 py-0.5 focus:outline-none text-[11px] placeholder-zinc-400 w-24"
+                    className="bg-white border border-zinc-200 text-zinc-700 rounded-md px-2 py-0.5 focus:outline-none text-[11px] placeholder-zinc-400 w-24"
                   />
                   <button
                     type="button"
                     onClick={() => { setShowCustom(false); setCustomAlias(''); }}
-                    class="text-zinc-400 hover:text-zinc-600 text-xs cursor-pointer"
+                    className="text-zinc-400 hover:text-zinc-600 text-xs cursor-pointer"
                   >
                     ✕
                   </button>
@@ -205,7 +205,7 @@ const LandingPage = () => {
 
         {/* Error */}
         {error && (
-          <div class="mt-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs">
+          <div className="mt-4 p-3 bg-red-50 border border-red-200 text-red-600 rounded-lg text-xs">
             {error}
           </div>
         )}
@@ -217,55 +217,55 @@ const LandingPage = () => {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 8 }}
-              class="mt-6 space-y-3"
+              className="mt-6 space-y-3"
             >
-              <div class="border-t border-zinc-100 pt-5"></div>
+              <div className="border-t border-zinc-100 pt-5"></div>
 
               {/* Short URL output */}
-              <div class="flex items-center justify-between bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 gap-3">
+              <div className="flex items-center justify-between bg-zinc-50 border border-zinc-200 rounded-xl px-4 py-3 gap-3">
                 <a
                   href={shortenedResult.shortUrl}
                   target="_blank"
                   rel="noreferrer"
-                  class="text-sm font-medium text-zinc-900 truncate hover:underline"
+                  className="text-sm font-medium text-zinc-900 truncate hover:underline"
                 >
                   {shortenedResult.shortUrl}
                 </a>
 
-                <div class="flex items-center gap-1.5 shrink-0">
+                <div className="flex items-center gap-1.5 shrink-0">
                   <button
                     type="button"
                     onClick={handleCopy}
-                    class="p-1.5 text-zinc-400 hover:text-zinc-700 rounded-md hover:bg-zinc-100 transition-colors cursor-pointer"
+                    className="p-1.5 text-zinc-400 hover:text-zinc-700 rounded-md hover:bg-zinc-100 transition-colors cursor-pointer"
                     title="Copy"
                   >
-                    {copied ? <Check class="w-4 h-4 text-emerald-500" /> : <Copy class="w-4 h-4" />}
+                    {copied ? <Check className="w-4 h-4 text-emerald-500" /> : <Copy className="w-4 h-4" />}
                   </button>
                   <button
                     type="button"
                     onClick={() => setShowQr(!showQr)}
-                    class={`p-1.5 rounded-md transition-colors cursor-pointer ${
+                    className={`p-1.5 rounded-md transition-colors cursor-pointer ${
                       showQr
                         ? 'bg-zinc-200 text-zinc-700'
                         : 'text-zinc-400 hover:text-zinc-700 hover:bg-zinc-100'
                     }`}
                     title="QR Code"
                   >
-                    <QrCode class="w-4 h-4" />
+                    <QrCode className="w-4 h-4" />
                   </button>
                   <button
                     type="button"
                     onClick={handleShare}
-                    class="p-1.5 text-zinc-400 hover:text-zinc-700 rounded-md hover:bg-zinc-100 transition-colors cursor-pointer"
+                    className="p-1.5 text-zinc-400 hover:text-zinc-700 rounded-md hover:bg-zinc-100 transition-colors cursor-pointer"
                     title="Share"
                   >
-                    <Share2 class="w-4 h-4" />
+                    <Share2 className="w-4 h-4" />
                   </button>
                 </div>
               </div>
 
               {copied && (
-                <p class="text-xs text-emerald-600 px-1">Copied to clipboard</p>
+                <p className="text-xs text-emerald-600 px-1">Copied to clipboard</p>
               )}
 
               {/* QR Code */}
@@ -275,26 +275,26 @@ const LandingPage = () => {
                     initial={{ opacity: 0, height: 0 }}
                     animate={{ opacity: 1, height: 'auto' }}
                     exit={{ opacity: 0, height: 0 }}
-                    class="overflow-hidden"
+                    className="overflow-hidden"
                   >
-                    <div class="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex flex-col items-center gap-2">
-                      <div class="bg-white p-2 rounded-lg border border-zinc-100">
+                    <div className="p-4 bg-zinc-50 border border-zinc-200 rounded-xl flex flex-col items-center gap-2">
+                      <div className="bg-white p-2 rounded-lg border border-zinc-100">
                         <img
                           src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
                             shortenedResult.shortUrl
                           )}`}
                           alt="QR code"
-                          class="w-28 h-28"
+                          className="w-28 h-28"
                         />
                       </div>
-                      <span class="text-[11px] text-zinc-400">Scan to open the short link</span>
+                      <span className="text-[11px] text-zinc-400">Scan to open the short link</span>
                     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
 
               {/* Meta info */}
-              <div class="flex items-center gap-4 text-xs text-zinc-400 px-1">
+              <div className="flex items-center gap-4 text-xs text-zinc-400 px-1">
                 <span>Created {formatDate(shortenedResult.createdAt)}</span>
                 {shortenedResult.expiresAt && (
                   <span>· Expires {formatDate(shortenedResult.expiresAt)}</span>
@@ -303,8 +303,8 @@ const LandingPage = () => {
 
               {/* Sign up nudge */}
               {!isAuthenticated && (
-                <p class="text-xs text-zinc-400 px-1">
-                  <Link to="/signup" class="text-zinc-600 hover:text-zinc-900 underline underline-offset-2">Sign up</Link> to
+                <p className="text-xs text-zinc-400 px-1">
+                  <Link to="/signup" className="text-zinc-600 hover:text-zinc-900 underline underline-offset-2">Sign up</Link> to
                   save links to your dashboard and see who clicks them.
                 </p>
               )}
@@ -314,24 +314,24 @@ const LandingPage = () => {
       </div>
 
       {/* What you get — simple list, not a SaaS features grid */}
-      <div class="mt-16 text-center">
-        <h2 class="text-lg font-semibold text-zinc-800 mb-6">What you get</h2>
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
-          <div class="space-y-1.5">
-            <h3 class="text-sm font-medium text-zinc-800">Click tracking</h3>
-            <p class="text-xs text-zinc-500 leading-relaxed">
+      <div className="mt-16 text-center">
+        <h2 className="text-lg font-semibold text-zinc-800 mb-6">What you get</h2>
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left">
+          <div className="space-y-1.5">
+            <h3 className="text-sm font-medium text-zinc-800">Click tracking</h3>
+            <p className="text-xs text-zinc-500 leading-relaxed">
               See how many people clicked your link, what browser they used, and where they came from.
             </p>
           </div>
-          <div class="space-y-1.5">
-            <h3 class="text-sm font-medium text-zinc-800">Custom names</h3>
-            <p class="text-xs text-zinc-500 leading-relaxed">
-              Pick a custom name like <span class="text-zinc-700">/my-resume</span> instead of a random code.
+          <div className="space-y-1.5">
+            <h3 className="text-sm font-medium text-zinc-800">Custom names</h3>
+            <p className="text-xs text-zinc-500 leading-relaxed">
+              Pick a custom name like <span className="text-zinc-700">/my-resume</span> instead of a random code.
             </p>
           </div>
-          <div class="space-y-1.5">
-            <h3 class="text-sm font-medium text-zinc-800">Expiry dates</h3>
-            <p class="text-xs text-zinc-500 leading-relaxed">
+          <div className="space-y-1.5">
+            <h3 className="text-sm font-medium text-zinc-800">Expiry dates</h3>
+            <p className="text-xs text-zinc-500 leading-relaxed">
               Links can expire after a set date. Good for limited-time offers or temporary shares.
             </p>
           </div>
@@ -340,19 +340,19 @@ const LandingPage = () => {
 
       {/* CTA for non-authenticated */}
       {!isAuthenticated && (
-        <div class="mt-14 text-center space-y-3">
-          <p class="text-sm text-zinc-500">Want a dashboard to manage all your links?</p>
-          <div class="flex items-center justify-center gap-3">
+        <div className="mt-14 text-center space-y-3">
+          <p className="text-sm text-zinc-500">Want a dashboard to manage all your links?</p>
+          <div className="flex items-center justify-center gap-3">
             <Link
               to="/signup"
-              class="px-5 py-2 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium rounded-lg transition-colors flex items-center gap-1.5"
+              className="px-5 py-2 bg-zinc-900 hover:bg-zinc-800 text-white text-xs font-medium rounded-lg transition-colors flex items-center gap-1.5"
             >
               Create free account
-              <ArrowRight class="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </Link>
             <Link
               to="/login"
-              class="px-5 py-2 text-zinc-600 hover:text-zinc-900 text-xs font-medium transition-colors"
+              className="px-5 py-2 text-zinc-600 hover:text-zinc-900 text-xs font-medium transition-colors"
             >
               Sign in
             </Link>
@@ -361,9 +361,9 @@ const LandingPage = () => {
       )}
 
       {/* Footer */}
-      <div class="mt-20 pt-6 border-t border-zinc-100 text-center">
-        <p class="text-[11px] text-zinc-400">
-          Built by <a href="https://github.com/Dinesh3906" target="_blank" rel="noreferrer" class="text-zinc-500 hover:text-zinc-700 underline underline-offset-2">Dinesh</a>
+      <div className="mt-20 pt-6 border-t border-zinc-100 text-center">
+        <p className="text-[11px] text-zinc-400">
+          Built by <a href="https://github.com/Dinesh3906" target="_blank" rel="noreferrer" className="text-zinc-500 hover:text-zinc-700 underline underline-offset-2">Dinesh</a>
         </p>
       </div>
     </motion.div>

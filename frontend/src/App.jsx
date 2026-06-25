@@ -14,8 +14,8 @@ const ProtectedRoute = ({ children }) => {
 
   if (loading) {
     return (
-      <div class="min-h-screen flex items-center justify-center bg-slate-950 text-slate-100">
-        <div class="w-10 h-10 border-4 border-indigo-600/30 border-t-indigo-500 rounded-full animate-spin"></div>
+      <div className="min-h-screen flex items-center justify-center bg-slate-950 text-slate-100">
+        <div className="w-10 h-10 border-4 border-indigo-600/30 border-t-indigo-500 rounded-full animate-spin"></div>
       </div>
     );
   }
@@ -31,12 +31,12 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <div class="min-h-screen flex flex-col">
+        <div className="min-h-screen flex flex-col">
           {/* Main Navigation Bar */}
           <Navbar />
           
           {/* Main Pages Content */}
-          <main class="flex-1">
+          <main className="flex-1">
             <Routes>
               {/* Public Routes */}
               <Route path="/" element={<LandingPage />} />

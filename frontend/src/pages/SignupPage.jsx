@@ -66,46 +66,46 @@ const SignupPage = () => {
   };
 
   return (
-    <div class="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
+    <div className="min-h-[calc(100vh-3.5rem)] flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
       <motion.div 
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
-        class="max-w-md w-full space-y-8 text-left"
+        className="max-w-md w-full space-y-8 text-left"
       >
         {/* Header */}
-        <div class="text-center space-y-2">
-          <h2 class="text-2xl font-bold tracking-tight text-zinc-900 font-sans">
+        <div className="text-center space-y-2">
+          <h2 className="text-2xl font-bold tracking-tight text-zinc-900 font-sans">
             Create account
           </h2>
-          <p class="text-xs text-zinc-500 font-mono">
+          <p className="text-xs text-zinc-500 font-mono">
             Get started with reliable URL infrastructure
           </p>
         </div>
 
         {/* Card */}
-        <div class="saas-card bg-white border-zinc-200 p-8 shadow-xl">
+        <div className="saas-card bg-white border-zinc-200 p-8 shadow-xl">
 
           {error && (
             <motion.div 
               initial={{ x: -4, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              class="mb-5 p-3 bg-rose-50 border border-rose-200 rounded flex items-start gap-2 text-rose-600 font-mono text-[11px]"
+              className="mb-5 p-3 bg-rose-50 border border-rose-200 rounded flex items-start gap-2 text-rose-600 font-mono text-[11px]"
             >
-              <AlertCircle class="w-4 h-4 shrink-0 mt-0.5" />
+              <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />
               <span>{error}</span>
             </motion.div>
           )}
 
-          <form class="space-y-4" onSubmit={handleSubmit}>
+          <form className="space-y-4" onSubmit={handleSubmit}>
             {/* Username Input */}
-            <div class="space-y-1.5 font-mono text-xs">
-              <label htmlFor="username" class="font-semibold text-zinc-500 uppercase tracking-wide">
+            <div className="space-y-1.5 font-mono text-xs">
+              <label htmlFor="username" className="font-semibold text-zinc-500 uppercase tracking-wide">
                 Username
               </label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
-                  <User class="w-4 h-4" />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
+                  <User className="w-4 h-4" />
                 </div>
                 <input
                   id="username"
@@ -114,20 +114,20 @@ const SignupPage = () => {
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 py-2.5!"
+                  className="w-full saas-input pl-10 py-2.5!"
                   placeholder="johndoe"
                 />
               </div>
             </div>
 
             {/* Email Input */}
-            <div class="space-y-1.5 font-mono text-xs">
-              <label htmlFor="email" class="font-semibold text-zinc-500 uppercase tracking-wide">
+            <div className="space-y-1.5 font-mono text-xs">
+              <label htmlFor="email" className="font-semibold text-zinc-500 uppercase tracking-wide">
                 Email Address
               </label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
-                  <Mail class="w-4 h-4" />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
+                  <Mail className="w-4 h-4" />
                 </div>
                 <input
                   id="email"
@@ -136,20 +136,20 @@ const SignupPage = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 py-2.5!"
+                  className="w-full saas-input pl-10 py-2.5!"
                   placeholder="john@example.com"
                 />
               </div>
             </div>
 
             {/* Password Input */}
-            <div class="space-y-1.5 font-mono text-xs">
-              <label htmlFor="password" class="font-semibold text-zinc-500 uppercase tracking-wide">
+            <div className="space-y-1.5 font-mono text-xs">
+              <label htmlFor="password" className="font-semibold text-zinc-500 uppercase tracking-wide">
                 Password
               </label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
-                  <Lock class="w-4 h-4" />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
+                  <Lock className="w-4 h-4" />
                 </div>
                 <input
                   id="password"
@@ -158,20 +158,20 @@ const SignupPage = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 py-2.5!"
+                  className="w-full saas-input pl-10 py-2.5!"
                   placeholder="•••••••• (Min 6 chars)"
                 />
               </div>
             </div>
 
             {/* Confirm Password Input */}
-            <div class="space-y-1.5 font-mono text-xs">
-              <label htmlFor="confirmPassword" class="font-semibold text-zinc-500 uppercase tracking-wide">
+            <div className="space-y-1.5 font-mono text-xs">
+              <label htmlFor="confirmPassword" className="font-semibold text-zinc-500 uppercase tracking-wide">
                 Confirm Password
               </label>
-              <div class="relative">
-                <div class="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
-                  <Lock class="w-4 h-4" />
+              <div className="relative">
+                <div className="absolute inset-y-0 left-3 flex items-center pointer-events-none text-zinc-400">
+                  <Lock className="w-4 h-4" />
                 </div>
                 <input
                   id="confirmPassword"
@@ -180,7 +180,7 @@ const SignupPage = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 py-2.5!"
+                  className="w-full saas-input pl-10 py-2.5!"
                   placeholder="••••••••"
                 />
               </div>
@@ -190,24 +190,24 @@ const SignupPage = () => {
             <button
               type="submit"
               disabled={loading}
-              class="w-full saas-btn-primary py-3 flex items-center justify-center gap-2 group text-xs font-semibold font-sans mt-4"
+              className="w-full saas-btn-primary py-3 flex items-center justify-center gap-2 group text-xs font-semibold font-sans mt-4"
             >
               {loading ? (
-                <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
               ) : (
                 <>
-                  <UserPlus class="w-4 h-4" />
+                  <UserPlus className="w-4 h-4" />
                   Register Workspace
-                  <ArrowRight class="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </>
               )}
             </button>
           </form>
 
           {/* Footer */}
-          <div class="mt-8 pt-6 border-t border-zinc-200 text-center text-xs text-zinc-500 font-mono">
+          <div className="mt-8 pt-6 border-t border-zinc-200 text-center text-xs text-zinc-500 font-mono">
             Already have an account?{' '}
-            <Link to="/login" class="text-zinc-650 hover:text-zinc-900 font-semibold transition-colors">
+            <Link to="/login" className="text-zinc-650 hover:text-zinc-900 font-semibold transition-colors">
               Sign in here
             </Link>
           </div>

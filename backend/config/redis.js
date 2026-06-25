@@ -4,18 +4,25 @@ let redisClient = null;
 let isRedisConnected = false;
 
 const connectRedis = async () => {
-  const redisUrl = process.env.REDIS_URL || 'redis://localhost:6379';
+  const redisUrl = process.env.REDIS_URL || '';
+  
+  if (!redisUrl || redisUrl.includes('YOUR_REDIS_PASSWORD') || redisUrl.includes('localhost')) {
+    console.log('Redis cache disabled (REDIS_URL not configured or placeholder detected).');
+    isRedisConnected = false;
+    return;
+  }
   
   redisClient = redis.createClient({
     url: redisUrl,
     socket: {
+      connectTimeout: 3000, // Timeout connection after 3 seconds
       reconnectStrategy: (retries) => {
-        // Attempt reconnection up to 5 times, then stop to prevent logs flooding
-        if (retries > 5) {
+        // Attempt reconnection up to 2 times in serverless to avoid hangs, then stop
+        if (retries > 2) {
           console.warn('Redis reconnection stopped: limit reached. Operating in cache-disabled fallback.');
-          return false; // Stop reconnecting
+          return false; 
         }
-        return Math.min(retries * 500, 2000); // Wait 0.5s, 1s, 1.5s, 2s...
+        return 1000; // Wait 1s between attempts
       }
     }
   });

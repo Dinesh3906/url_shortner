@@ -16,8 +16,8 @@ const redirectRoutes = require('./routes/redirectRoutes');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB
-connectDB();
+// Connect to MongoDB (non-blocking on startup, query buffering handles requests)
+connectDB().catch(err => console.error('Database connection failed on startup:', err.message));
 
 // Connect to Redis (graceful fallback if offline)
 connectRedis();
@@ -39,9 +39,18 @@ app.use('/api/url', urlRoutes);
 app.use('/api/analytics', analyticsRoutes);
 
 // Health check endpoint
-app.get('/health', (req, res) => {
+app.get('/health', async (req, res) => {
   const { getIsRedisConnected } = require('./config/redis');
   const mongoose = require('mongoose');
+  
+  if (mongoose.connection.readyState !== 1) {
+    try {
+      await connectDB();
+    } catch (dbErr) {
+      console.error('Health check database reconnection failed:', dbErr.message);
+    }
+  }
+
   res.json({
     status: 'UP',
     hasMongoUri: !!process.env.MONGO_URI,

@@ -31,6 +31,7 @@ const Dashboard = () => {
   // Dashboard URL creation state
   const [originalUrl, setOriginalUrl] = useState('');
   const [expiresAt, setExpiresAt] = useState('');
+  const [customAlias, setCustomAlias] = useState('');
   const [createLoading, setCreateLoading] = useState(false);
   const [createError, setCreateError] = useState('');
   const [createSuccess, setCreateSuccess] = useState(false);
@@ -80,12 +81,14 @@ const Dashboard = () => {
     try {
       const response = await axios.post(`${API_URL}/url/shorten`, {
         originalUrl,
-        expiresAt: expiresAt || null
+        expiresAt: expiresAt || null,
+        customAlias: customAlias || null
       });
 
       if (response.data.success) {
         setOriginalUrl('');
         setExpiresAt('');
+        setCustomAlias('');
         setCreateSuccess(true);
         setShowCreateModal(false);
         // Refresh list
@@ -403,9 +406,9 @@ const Dashboard = () => {
                   placeholder="e.g. Production App Key"
                   value={newKeyName}
                   onChange={(e) => setNewKeyName(e.target.value)}
-                  class="flex-1 saas-input !py-2 text-xs"
+                  class="flex-1 saas-input py-2! text-xs"
                 />
-                <button type="submit" class="saas-btn-primary !py-2 text-xs font-mono">
+                <button type="submit" class="saas-btn-primary py-2! text-xs font-mono">
                   Generate Key
                 </button>
               </form>
@@ -513,26 +516,37 @@ const Dashboard = () => {
                 </button>
               </div>
 
-              <form onSubmit={handleShorten} class="space-y-4 font-mono text-xs">
+              <form onSubmit={handleShorten} class="space-y-4 font-sans text-xs">
                 <div class="space-y-1.5 text-left">
-                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Long Destination URL</label>
+                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Long Destination URL</label>
                   <input
                     type="text"
                     required
                     placeholder="https://example.com/deep/resource"
                     value={originalUrl}
                     onChange={(e) => setOriginalUrl(e.target.value)}
-                    class="w-full saas-input !py-2"
+                    class="w-full saas-input py-2!"
                   />
                 </div>
 
                 <div class="space-y-1.5 text-left">
-                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold">Expiration Date (Optional)</label>
+                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Custom Name (Optional)</label>
+                  <input
+                    type="text"
+                    placeholder="e.g. my-custom-link"
+                    value={customAlias}
+                    onChange={(e) => setCustomAlias(e.target.value)}
+                    class="w-full saas-input py-2!"
+                  />
+                </div>
+
+                <div class="space-y-1.5 text-left">
+                  <label class="text-[10px] text-zinc-500 uppercase tracking-wider font-semibold font-sans">Expiration Date (Optional)</label>
                   <input
                     type="datetime-local"
                     value={expiresAt}
                     onChange={(e) => setExpiresAt(e.target.value)}
-                    class="w-full saas-input !py-2 cursor-pointer"
+                    class="w-full saas-input py-2! cursor-pointer"
                   />
                 </div>
 

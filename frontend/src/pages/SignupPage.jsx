@@ -114,7 +114,7 @@ const SignupPage = () => {
                   required
                   value={formData.username}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 !py-2.5"
+                  class="w-full saas-input pl-10 py-2.5!"
                   placeholder="johndoe"
                 />
               </div>
@@ -136,7 +136,7 @@ const SignupPage = () => {
                   required
                   value={formData.email}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 !py-2.5"
+                  class="w-full saas-input pl-10 py-2.5!"
                   placeholder="john@example.com"
                 />
               </div>
@@ -158,7 +158,7 @@ const SignupPage = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 !py-2.5"
+                  class="w-full saas-input pl-10 py-2.5!"
                   placeholder="•••••••• (Min 6 chars)"
                 />
               </div>
@@ -180,7 +180,7 @@ const SignupPage = () => {
                   required
                   value={formData.confirmPassword}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 !py-2.5"
+                  class="w-full saas-input pl-10 py-2.5!"
                   placeholder="••••••••"
                 />
               </div>

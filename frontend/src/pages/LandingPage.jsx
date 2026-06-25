@@ -36,7 +36,9 @@ const LandingPage = () => {
   // Input fields
   const [originalUrl, setOriginalUrl] = useState('');
   const [expiresAt, setExpiresAt] = useState('');
+  const [customAlias, setCustomAlias] = useState('');
   const [showExpiry, setShowExpiry] = useState(false);
+  const [showCustom, setShowCustom] = useState(false);
   
   // UI feedback & state
   const [loading, setLoading] = useState(false);
@@ -65,7 +67,8 @@ const LandingPage = () => {
     try {
       const response = await axios.post(`${API_URL}/url/shorten`, {
         originalUrl,
-        expiresAt: expiresAt || null
+        expiresAt: expiresAt || null,
+        customAlias: customAlias || null
       });
 
       if (response.data.success) {
@@ -79,7 +82,9 @@ const LandingPage = () => {
         
         setOriginalUrl('');
         setExpiresAt('');
+        setCustomAlias('');
         setShowExpiry(false);
+        setShowCustom(false);
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to shorten URL. Make sure it is valid.');
@@ -164,7 +169,7 @@ const LandingPage = () => {
             <form onSubmit={handleSubmit} class="space-y-4">
               <div class="border border-zinc-800 bg-[#0b0e17] rounded-xl p-4 focus-within:border-zinc-700/85 transition-all space-y-3">
                 <div class="flex items-center justify-between">
-                  <div class="flex items-center gap-2.5 flex-grow min-w-0">
+                  <div class="flex items-center gap-2.5 grow min-w-0">
                     <Link2 class="w-4 h-4 text-zinc-550 shrink-0" />
                     <input
                       type="text"
@@ -198,38 +203,80 @@ const LandingPage = () => {
               </div>
 
               {/* Collapsible Expiration Picker */}
-              <div class="px-1">
-                {!showExpiry ? (
-                  <button
-                    type="button"
-                    onClick={() => setShowExpiry(true)}
-                    class="text-[10px] text-zinc-500 hover:text-zinc-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer animate-fade-in"
-                  >
-                    <Clock class="w-3 h-3" />
-                    Add link expiration date
-                  </button>
-                ) : (
-                  <div class="flex items-center gap-2 text-[10px] text-zinc-400">
-                    <Clock class="w-3 h-3 text-zinc-500" />
-                    <span>Expires:</span>
-                    <input
-                      type="datetime-local"
-                      value={expiresAt}
-                      onChange={(e) => setExpiresAt(e.target.value)}
-                      class="bg-[#0b0e17] border border-zinc-800 text-zinc-300 rounded-md px-2 py-0.5 focus:outline-none text-[9px] cursor-pointer"
-                    />
+              {/* Extra features: Expiry and Custom Name */}
+              <div class="flex flex-wrap items-center gap-4 px-1">
+                
+                {/* Expiration Picker */}
+                <div>
+                  {!showExpiry ? (
                     <button
                       type="button"
-                      onClick={() => {
-                        setShowExpiry(false);
-                        setExpiresAt('');
-                      }}
-                      class="text-zinc-500 hover:text-zinc-350 ml-1 text-xs cursor-pointer"
+                      onClick={() => setShowExpiry(true)}
+                      class="text-[10px] text-zinc-500 hover:text-zinc-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
                     >
-                      ✕
+                      <Clock class="w-3 h-3 text-zinc-550" />
+                      Add expiration date
                     </button>
-                  </div>
-                )}
+                  ) : (
+                    <div class="flex items-center gap-2 text-[10px] text-zinc-450">
+                      <Clock class="w-3 h-3 text-zinc-500" />
+                      <span>Expires:</span>
+                      <input
+                        type="datetime-local"
+                        value={expiresAt}
+                        onChange={(e) => setExpiresAt(e.target.value)}
+                        class="bg-[#0b0e17] border border-zinc-800 text-zinc-300 rounded-md px-2 py-0.5 focus:outline-none text-[9px] cursor-pointer"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowExpiry(false);
+                          setExpiresAt('');
+                        }}
+                        class="text-zinc-500 hover:text-zinc-350 ml-1 text-xs cursor-pointer"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                </div>
+
+                {/* Custom Alias Picker */}
+                <div>
+                  {!showCustom ? (
+                    <button
+                      type="button"
+                      onClick={() => setShowCustom(true)}
+                      class="text-[10px] text-zinc-500 hover:text-zinc-400 flex items-center gap-1.5 transition-colors font-medium cursor-pointer"
+                    >
+                      <Link2 class="w-3 h-3 text-zinc-550" />
+                      Add custom name
+                    </button>
+                  ) : (
+                    <div class="flex items-center gap-2 text-[10px] text-zinc-450">
+                      <Link2 class="w-3 h-3 text-zinc-500" />
+                      <span>Custom Name:</span>
+                      <input
+                        type="text"
+                        placeholder="my-alias"
+                        value={customAlias}
+                        onChange={(e) => setCustomAlias(e.target.value)}
+                        class="bg-[#0b0e17] border border-zinc-805 text-zinc-300 rounded-md px-2 py-0.5 focus:outline-none text-[10px] placeholder-zinc-650 w-28"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setShowCustom(false);
+                          setCustomAlias('');
+                        }}
+                        class="text-zinc-500 hover:text-zinc-350 ml-1 text-xs cursor-pointer"
+                      >
+                        ✕
+                      </button>
+                    </div>
+                  )}
+                </div>
+
               </div>
             </form>
 

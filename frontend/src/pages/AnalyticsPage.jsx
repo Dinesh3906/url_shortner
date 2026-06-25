@@ -146,7 +146,7 @@ const AnalyticsPage = () => {
               {copied ? <Check class="w-3.5 h-3.5 text-emerald-600" /> : <Share2 class="w-3.5 h-3.5" />}
             </button>
           </div>
-          <a href={url.shortUrl} target="_blank" rel="noreferrer" class="saas-btn-primary !p-2 flex items-center justify-center shrink-0">
+          <a href={url.shortUrl} target="_blank" rel="noreferrer" class="saas-btn-primary p-2! flex items-center justify-center shrink-0">
             <ExternalLink class="w-4 h-4" />
           </a>
         </div>

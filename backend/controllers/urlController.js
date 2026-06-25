@@ -23,7 +23,7 @@ const getBaseUrl = (req) => {
  */
 const shorten = async (req, res, next) => {
   try {
-    const { originalUrl, expiresAt } = req.body;
+    const { originalUrl, expiresAt, customAlias } = req.body;
     const userId = req.user ? req.user.id : null;
 
     // 1. Validate original URL
@@ -32,7 +32,6 @@ const shorten = async (req, res, next) => {
       throw new Error('Please provide a URL to shorten');
     }
 
-    // Standardize URL formatting and validate
     let urlToShorten = originalUrl.trim();
     if (!urlToShorten.startsWith('http://') && !urlToShorten.startsWith('https://')) {
       urlToShorten = 'https://' + urlToShorten;
@@ -43,22 +42,52 @@ const shorten = async (req, res, next) => {
       throw new Error('Invalid URL format. Please provide a valid web address.');
     }
 
-    // 2. Fetch or Initialize counter document
-    let counter = await Counter.findById('url_id');
-    if (!counter) {
-      // Create if it doesn't exist (starts at 100,000,000)
-      counter = await Counter.create({ _id: 'url_id', seq: 100000000 });
+    let shortCode;
+
+    // If custom alias is provided
+    if (customAlias && customAlias.trim() !== '') {
+      const alias = customAlias.trim();
+      
+      // Validate alias (alphanumeric and dashes/underscores, between 3 and 30 characters)
+      const aliasRegex = /^[a-zA-Z0-9-_]+$/;
+      if (!aliasRegex.test(alias)) {
+        res.status(400);
+        throw new Error('Custom name must be alphanumeric and can only contain dashes or underscores.');
+      }
+      if (alias.length < 3 || alias.length > 30) {
+        res.status(400);
+        throw new Error('Custom name must be between 3 and 30 characters long.');
+      }
+
+      // Check availability
+      const existing = await Url.findOne({ shortCode: alias });
+      if (existing) {
+        res.status(400);
+        throw new Error('This custom name is already in use. Please try another one.');
+      }
+      
+      shortCode = alias;
+    } else {
+      // 2. Fetch or Initialize counter document
+      let counter = await Counter.findById('url_id');
+      if (!counter) {
+        counter = await Counter.create({ _id: 'url_id', seq: 10000 });
+      } else if (counter.seq >= 100000000) {
+        // Reset old high counter to generate much shorter codes
+        counter.seq = 10000;
+        await counter.save();
+      }
+
+      // 3. Atomically increment the counter to get a unique sequential ID
+      counter = await Counter.findByIdAndUpdate(
+        'url_id',
+        { $inc: { seq: 1 } },
+        { new: true }
+      );
+
+      // 4. Encode the sequential ID to Base62 short code
+      shortCode = encodeBase62(counter.seq);
     }
-
-    // 3. Atomically increment the counter to get a unique sequential ID
-    counter = await Counter.findByIdAndUpdate(
-      'url_id',
-      { $inc: { seq: 1 } },
-      { new: true }
-    );
-
-    // 4. Encode the sequential ID to Base62 short code
-    const shortCode = encodeBase62(counter.seq);
 
     // 5. Build expiry date if provided
     let expiryDate = null;
@@ -82,7 +111,6 @@ const shorten = async (req, res, next) => {
     const redisClient = getRedisClient();
     if (redisClient && getIsRedisConnected()) {
       try {
-        // Cache mapping for 24 hours (86400 seconds)
         await redisClient.setEx(`url:${shortCode}`, 86400, urlToShorten);
       } catch (redisErr) {
         console.error('Failed to write to Redis cache:', redisErr.message);

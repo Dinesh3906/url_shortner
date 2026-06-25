@@ -98,7 +98,7 @@ const LoginPage = () => {
                   required
                   value={formData.emailOrUsername}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 !py-2.5"
+                  class="w-full saas-input pl-10 py-2.5!"
                   placeholder="name@example.com"
                 />
               </div>
@@ -120,7 +120,7 @@ const LoginPage = () => {
                   required
                   value={formData.password}
                   onChange={handleChange}
-                  class="w-full saas-input pl-10 !py-2.5"
+                  class="w-full saas-input pl-10 py-2.5!"
                   placeholder="••••••••"
                 />
               </div>

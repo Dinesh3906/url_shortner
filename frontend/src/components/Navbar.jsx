@@ -138,7 +138,7 @@ const Navbar = () => {
           <div class="md:hidden flex items-center">
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              class="inline-flex items-center justify-center p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/[0.04] focus:outline-none transition-colors cursor-pointer"
+              class="inline-flex items-center justify-center p-2 rounded-lg text-zinc-400 hover:text-white hover:bg-white/4 focus:outline-none transition-colors cursor-pointer"
             >
               {mobileMenuOpen ? <X class="w-5 h-5" /> : <Menu class="w-5 h-5" />}
             </button>

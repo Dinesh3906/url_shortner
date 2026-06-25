@@ -1,0 +1,13 @@
+{
+  "name": "shortlink-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "workspaces": [
+    "frontend",
+    "backend"
+  ],
+  "scripts": {
+    "build": "npm run build -w frontend && mv frontend/dist dist",
+    "install-all": "npm install"
+  }
+}

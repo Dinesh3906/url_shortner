@@ -10,9 +10,6 @@ const getBaseUrl = (req) => {
   }
   const host = req.get('host');
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-  if (process.env.VERCEL) {
-    return `${protocol}://${host}/_/backend`;
-  }
   return `${protocol}://${host}`;
 };
 
@@ -71,10 +68,10 @@ const shorten = async (req, res, next) => {
       // 2. Fetch or Initialize counter document
       let counter = await Counter.findById('url_id');
       if (!counter) {
-        counter = await Counter.create({ _id: 'url_id', seq: 10000 });
+        counter = await Counter.create({ _id: 'url_id', seq: 0 });
       } else if (counter.seq >= 100000000) {
         // Reset old high counter to generate much shorter codes
-        counter.seq = 10000;
+        counter.seq = 0;
         await counter.save();
       }
 

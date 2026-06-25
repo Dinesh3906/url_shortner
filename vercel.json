@@ -9,5 +9,11 @@
             "entrypoint": "backend/server.js",
             "routePrefix": "/_/backend"
         }
-    }
+    },
+    "rewrites": [
+        {
+            "source": "/:code((?!login|signup|dashboard|analytics|assets|favicon|logo|static|api|health|_/backend)[a-zA-Z0-9-_]{1,10})",
+            "destination": "/_/backend/:code"
+        }
+    ]
 }

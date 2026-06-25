@@ -7,9 +7,6 @@ const getBaseUrl = (req) => {
   }
   const host = req.get('host');
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
-  if (process.env.VERCEL) {
-    return `${protocol}://${host}/_/backend`;
-  }
   return `${protocol}://${host}`;
 };
 

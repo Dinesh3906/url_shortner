@@ -5,9 +5,6 @@ const { getRedisClient, getIsRedisConnected } = require('../config/redis');
 const validator = require('validator');
 
 const getBaseUrl = (req) => {
-  if (process.env.BACKEND_URL) {
-    return process.env.BACKEND_URL;
-  }
   const host = req.get('host');
   const protocol = req.headers['x-forwarded-proto'] || req.protocol;
   return `${protocol}://${host}`;

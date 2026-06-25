@@ -44,6 +44,8 @@ app.get('/health', (req, res) => {
   const mongoose = require('mongoose');
   res.json({
     status: 'UP',
+    hasMongoUri: !!process.env.MONGO_URI,
+    mongoUriPrefix: process.env.MONGO_URI ? process.env.MONGO_URI.substring(0, 15) : 'none',
     database: mongoose.connection.readyState === 1 ? 'Connected' : 'Disconnected',
     cache: getIsRedisConnected() ? 'Connected' : 'Disconnected (Fallback Active)',
     timestamp: new Date()

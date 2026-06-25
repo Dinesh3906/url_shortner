@@ -1,6 +1,18 @@
 const Url = require('../models/Url');
 const Analytics = require('../models/Analytics');
 
+const getBaseUrl = (req) => {
+  if (process.env.BACKEND_URL) {
+    return process.env.BACKEND_URL;
+  }
+  const host = req.get('host');
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  if (process.env.VERCEL) {
+    return `${protocol}://${host}/_/backend`;
+  }
+  return `${protocol}://${host}`;
+};
+
 /**
  * @desc    Get analytics for a specific shortened URL
  * @route   GET /api/analytics/:urlId
@@ -120,7 +132,7 @@ const getUrlAnalytics = async (req, res, next) => {
       });
     }
 
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+    const baseUrl = getBaseUrl(req);
 
     return res.json({
       success: true,
@@ -132,7 +144,7 @@ const getUrlAnalytics = async (req, res, next) => {
           clicks: url.clicks,
           createdAt: url.createdAt,
           expiresAt: url.expiresAt,
-          shortUrl: `${backendUrl}/${url.shortCode}`
+          shortUrl: `${baseUrl}/${url.shortCode}`
         },
         clickHistory,
         deviceBreakdown: deviceBreakdown.map(item => ({ name: item._id, value: item.count })),

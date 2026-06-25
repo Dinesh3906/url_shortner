@@ -4,6 +4,18 @@ const { encodeBase62 } = require('../utils/base62');
 const { getRedisClient, getIsRedisConnected } = require('../config/redis');
 const validator = require('validator');
 
+const getBaseUrl = (req) => {
+  if (process.env.BACKEND_URL) {
+    return process.env.BACKEND_URL;
+  }
+  const host = req.get('host');
+  const protocol = req.headers['x-forwarded-proto'] || req.protocol;
+  if (process.env.VERCEL) {
+    return `${protocol}://${host}/_/backend`;
+  }
+  return `${protocol}://${host}`;
+};
+
 /**
  * @desc    Shorten a long URL
  * @route   POST /api/url/shorten
@@ -86,7 +98,7 @@ const shorten = async (req, res, next) => {
         clicks: newUrl.clicks,
         createdAt: newUrl.createdAt,
         expiresAt: newUrl.expiresAt,
-        shortUrl: `${process.env.BACKEND_URL || 'http://localhost:5000'}/${newUrl.shortCode}`
+        shortUrl: `${getBaseUrl(req)}/${newUrl.shortCode}`
       }
     });
   } catch (error) {
@@ -104,10 +116,10 @@ const getUserUrls = async (req, res, next) => {
     const userId = req.user.id;
     const urls = await Url.find({ userId }).sort({ createdAt: -1 });
 
-    const backendUrl = process.env.BACKEND_URL || 'http://localhost:5000';
+    const baseUrl = getBaseUrl(req);
     const formattedUrls = urls.map(url => ({
       ...url.toObject(),
-      shortUrl: `${backendUrl}/${url.shortCode}`
+      shortUrl: `${baseUrl}/${url.shortCode}`
     }));
 
     return res.json({

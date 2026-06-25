@@ -8,7 +8,7 @@
 
 @layer base {
   body {
-    @apply bg-[#09090b] text-zinc-200 font-sans antialiased overflow-x-hidden;
+    @apply bg-[#0b0e17] text-zinc-200 font-sans antialiased overflow-x-hidden;
     /* Soft dark ambient backdrop (no grid) */
     background-image: radial-gradient(ellipse at 50% -20%, rgba(99, 102, 241, 0.08), transparent 70%);
     background-position: center top;
@@ -19,7 +19,7 @@
 
 /* Premium Developer-focused SaaS UI Classes */
 .saas-card {
-  @apply bg-[#121214] border border-zinc-800/80 rounded-lg p-6 shadow-sm transition-all duration-200;
+  @apply bg-[#121624] border border-zinc-800/80 rounded-2xl p-6 shadow-sm transition-all duration-200;
 }
 
 .saas-card-hover {
@@ -31,11 +31,11 @@
 }
 
 .saas-btn-primary {
-  @apply px-4 py-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-950 font-semibold text-xs rounded-lg transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none border border-zinc-200 font-mono shadow-sm;
+  @apply px-4 py-2 bg-[#4f46e5] hover:bg-[#5f56f3] text-white font-semibold text-xs rounded-lg transition-all duration-150 active:scale-[0.98] disabled:opacity-50 disabled:pointer-events-none border border-transparent font-sans shadow-sm;
 }
 
 .saas-btn-secondary {
-  @apply px-4 py-2 bg-[#121214] border border-zinc-800 hover:bg-zinc-900 hover:border-zinc-700 text-zinc-400 hover:text-zinc-100 font-medium text-xs rounded-lg transition-all duration-150 active:scale-[0.98] font-mono;
+  @apply px-4 py-2 bg-[#121624] border border-zinc-800 hover:bg-zinc-800 hover:border-zinc-700 text-zinc-400 hover:text-zinc-100 font-medium text-xs rounded-lg transition-all duration-150 active:scale-[0.98] font-sans;
 }
 
 /* Technical Status Indicator Badge */

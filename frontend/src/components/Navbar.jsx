@@ -19,15 +19,20 @@ const Navbar = () => {
 
   const isActive = (path) => location.pathname === path;
 
-  const navLinks = [
-    { name: 'Dashboard', path: '/dashboard', private: true },
-    { name: 'Analytics', path: '/dashboard', private: true, search: '?tab=analytics' }, // Point to dashboard with analytics tab or specific link
-    { name: 'API', path: '#api-docs', private: false },
-    { name: 'Docs', path: '#docs', private: false }
-  ];
+  const navLinks = isAuthenticated
+    ? [
+        { name: 'Dashboard', path: '/dashboard', private: true },
+        { name: 'Analytics', path: '/dashboard', private: true, search: '?tab=analytics' }
+      ]
+    : [
+        { name: 'Product', path: '#product', private: false, hasDropdown: true },
+        { name: 'Solutions', path: '#solutions', private: false },
+        { name: 'Developers', path: '#developers', private: false, hasDropdown: true },
+        { name: 'Pricing', path: '#pricing', private: false }
+      ];
 
   return (
-    <nav class="sticky top-0 z-50 border-b border-zinc-800/80 bg-[#09090b]/80 backdrop-blur-md">
+    <nav class="sticky top-0 z-50 border-b border-zinc-800/80 bg-[#0b0e17]/85 backdrop-blur-md">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex items-center justify-between h-14">
           
@@ -52,7 +57,6 @@ const Navbar = () => {
           {/* Middle: Navigation Links */}
           <div class="hidden md:flex items-center space-x-1">
             {navLinks.map((link) => {
-              // Hide private links if not authenticated
               if (link.private && !isAuthenticated) return null;
               
               const linkPath = link.search ? `${link.path}${link.search}` : link.path;
@@ -64,25 +68,28 @@ const Navbar = () => {
                   to={linkPath}
                   onMouseEnter={() => setHoveredTab(link.name)}
                   onMouseLeave={() => setHoveredTab(null)}
-                  class={`relative px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-colors ${
-                    isLinkActive ? 'text-white' : 'text-slate-400 hover:text-white'
+                  class={`relative px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-colors flex items-center gap-1 ${
+                    isLinkActive ? 'text-white' : 'text-zinc-400 hover:text-white'
                   }`}
                 >
                   {isLinkActive && (
                     <motion.div
                       layoutId="activeNavIndicator"
-                      class="absolute inset-0 bg-white/[0.03] border border-white/[0.06] rounded-lg"
+                      class="absolute inset-0 bg-zinc-900 border border-zinc-800 rounded-lg"
                       transition={{ type: 'spring', stiffness: 380, damping: 30 }}
                     />
                   )}
                   {hoveredTab === link.name && !isLinkActive && (
                     <motion.div
                       layoutId="hoverNavIndicator"
-                      class="absolute inset-0 bg-white/[0.015] rounded-lg -z-10"
+                      class="absolute inset-0 bg-zinc-900/50 rounded-lg -z-10"
                       transition={{ type: 'spring', stiffness: 350, damping: 25 }}
                     />
                   )}
                   {link.name}
+                  {link.hasDropdown && (
+                    <span class="text-[8px] text-zinc-500 font-sans transform translate-y-[0.5px]">▼</span>
+                  )}
                 </Link>
               );
             })}
@@ -92,7 +99,7 @@ const Navbar = () => {
           <div class="hidden md:flex items-center gap-3">
             {isAuthenticated ? (
               <div class="flex items-center gap-4">
-                <span class="text-[11px] text-slate-500 font-mono flex items-center gap-1.5">
+                <span class="text-[11px] text-zinc-500 font-mono flex items-center gap-1.5">
                   <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                   {user?.username}
                 </span>
@@ -103,7 +110,7 @@ const Navbar = () => {
                 
                 <button
                   onClick={handleLogout}
-                  class="p-1.5 text-slate-500 hover:text-red-400 hover:bg-red-500/10 rounded-lg transition-colors"
+                  class="p-1.5 text-zinc-550 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-colors"
                   title="Logout"
                 >
                   <LogOut class="w-4 h-4" />
@@ -113,15 +120,15 @@ const Navbar = () => {
               <>
                 <Link
                   to="/login"
-                  class="text-slate-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-colors"
+                  class="text-zinc-400 hover:text-white px-3 py-1.5 rounded-lg text-xs font-medium font-mono transition-colors"
                 >
-                  Sign In
+                  Log in
                 </Link>
                 <Link
                   to="/signup"
-                  class="saas-btn-primary !py-1.5 !px-3.5 !text-xs font-mono"
+                  class="px-4 py-1.5 bg-indigo-600 hover:bg-indigo-500 text-white font-medium text-xs font-mono rounded-full transition-all duration-150 active:scale-[0.98] shadow-sm shadow-indigo-600/10"
                 >
-                  Create Link
+                  Create account
                 </Link>
               </>
             )}

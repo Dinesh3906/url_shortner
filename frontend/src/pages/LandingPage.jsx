@@ -1,30 +1,52 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { Link2, Copy, Check, Zap, BarChart3, ShieldCheck, ArrowRight, Clock, QrCode, ArrowUpRight, Terminal } from 'lucide-react';
+import { 
+  Link2, Copy, Check, Zap, BarChart3, Shield, ArrowRight, Clock, 
+  QrCode, Share2, Globe 
+} from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const getApiUrl = () => {
-  if (import.meta.env.VITE_API_URL) {
-    return import.meta.env.VITE_API_URL;
+  if (typeof window !== 'undefined') {
+    if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+      return `${window.location.origin}/_/backend/api`;
+    }
   }
-  if (typeof window !== 'undefined' && window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-    return '/_/backend/api';
-  }
-  return 'http://localhost:5000/api';
+  return import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
 };
 
 const API_URL = getApiUrl();
 
+const formatDate = (dateInput) => {
+  if (!dateInput) return '';
+  const date = new Date(dateInput);
+  return date.toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric'
+  });
+};
+
 const LandingPage = () => {
   const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  
+  // Input fields
   const [originalUrl, setOriginalUrl] = useState('');
   const [expiresAt, setExpiresAt] = useState('');
+  const [showExpiry, setShowExpiry] = useState(false);
+  
+  // UI feedback & state
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [shortenedResult, setShortenedResult] = useState(null);
+  
+  // Displayed Card contents (initialized to match the screenshot mockup)
+  const [displayedShortUrl, setDisplayedShortUrl] = useState('short.link/a8f3Kp');
+  const [displayedClicks, setDisplayedClicks] = useState('12,842');
+  const [displayedCreated, setDisplayedCreated] = useState('May 12, 2025');
   const [copied, setCopied] = useState(false);
   const [showQr, setShowQr] = useState(false);
 
@@ -47,9 +69,17 @@ const LandingPage = () => {
       });
 
       if (response.data.success) {
-        setShortenedResult(response.data.data);
+        const resultData = response.data.data;
+        setShortenedResult(resultData);
+        
+        // Dynamically update the visual card with the actual live shortened URL and info!
+        setDisplayedShortUrl(resultData.shortUrl);
+        setDisplayedClicks('0');
+        setDisplayedCreated(formatDate(resultData.createdAt));
+        
         setOriginalUrl('');
         setExpiresAt('');
+        setShowExpiry(false);
       }
     } catch (err) {
       setError(err.response?.data?.message || 'Failed to shorten URL. Make sure it is valid.');
@@ -59,133 +89,98 @@ const LandingPage = () => {
   };
 
   const handleCopy = () => {
-    if (shortenedResult) {
-      navigator.clipboard.writeText(shortenedResult.shortUrl);
+    const urlToCopy = shortenedResult ? shortenedResult.shortUrl : 'https://short.link/a8f3Kp';
+    navigator.clipboard.writeText(urlToCopy);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const handleShare = () => {
+    const urlToShare = shortenedResult ? shortenedResult.shortUrl : 'https://short.link/a8f3Kp';
+    if (navigator.share) {
+      navigator.share({
+        title: 'ShortLink',
+        url: urlToShare
+      }).catch(() => {
+        // Handle cancel or dismissal
+      });
+    } else {
+      navigator.clipboard.writeText(urlToShare);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     }
   };
 
   return (
-    <motion.div 
+    <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 space-y-24"
+      class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 space-y-20 font-sans"
     >
-      
-      {/* Hero Section: Sleek split Layout */}
+      {/* Hero Section */}
       <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
         
         {/* Left Side: Product Slogan & CTAs */}
-        <div class="lg:col-span-7 space-y-6 text-left">
-          <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded border border-zinc-800 bg-[#121214] text-zinc-400 font-mono text-[10px] uppercase tracking-wider">
-            <Terminal class="w-3 h-3 text-zinc-500" />
-            API Engine v1.0.0
+        <div class="lg:col-span-6 space-y-6 text-left">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#10b981]/5 border border-[#10b981]/15 text-[#10b981] font-mono text-[10px] uppercase tracking-wider">
+            <span class="w-1.5 h-1.5 rounded-full bg-[#10b981] animate-pulse"></span>
+            <span class="text-[#10b981]/90 font-semibold">URL Infrastructure</span>
+            <span class="text-zinc-700">|</span>
+            <span class="text-zinc-400 font-sans">Built for speed & scale</span>
           </div>
-          
-          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.1] font-sans">
-            The link management <br/>
-            <span class="text-zinc-500">platform for developers</span>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.08]">
+            Short links.<br />
+            Real impact.
           </h1>
-          
-          <p class="text-xs sm:text-sm text-zinc-400 font-light max-w-lg leading-relaxed font-mono">
-            A developer-first URL shortener with sub-15ms redirection latency. Powered by Redis caching, MongoDB indexing, and asynchronous analytic log tracking.
+
+          <p class="text-sm sm:text-base text-zinc-400 max-w-lg leading-relaxed">
+            ShortLink is the developer-friendly URL shortener trusted by thousands of teams to build, scale, and analyze links that drive results.
           </p>
 
           <div class="flex flex-wrap items-center gap-3 pt-2">
             {isAuthenticated ? (
-              <Link to="/dashboard" class="saas-btn-primary flex items-center gap-1.5 font-mono">
-                Go to Console
+              <Link to="/dashboard" class="px-5 py-2.5 bg-[#4f46e5] hover:bg-[#5f56f3] text-white font-semibold text-xs rounded-lg transition-all flex items-center gap-1.5 shadow-sm shadow-[#4f46e5]/10">
+                Go to Dashboard
                 <ArrowRight class="w-3.5 h-3.5" />
               </Link>
             ) : (
               <>
-                <Link to="/signup" class="saas-btn-primary flex items-center gap-1.5 font-mono">
-                  Get Started for free
-                  <ArrowRight class="w-3.5 h-3.5" />
+                <Link to="/signup" class="px-5 py-2.5 bg-[#4f46e5] hover:bg-[#5f56f3] text-white font-semibold text-xs rounded-lg transition-all flex items-center gap-1.5 shadow-sm shadow-[#4f46e5]/10">
+                  Get started for free
                 </Link>
-                <a href="#docs" class="saas-btn-secondary font-mono">
-                  Read API Docs
-                </a>
+                <Link to="/login" class="px-5 py-2.5 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 hover:text-white font-medium text-xs rounded-lg border border-zinc-800/80 transition-all">
+                  View API docs
+                </Link>
               </>
             )}
           </div>
         </div>
 
-        {/* Right Side: Terminal Metrics Card */}
-        <div class="lg:col-span-5">
-          <motion.div 
-            whileHover={{ y: -2 }}
-            transition={{ duration: 0.15 }}
-            class="saas-card relative overflow-hidden bg-[#121214] border-zinc-800"
-          >
-            <div class="flex items-center justify-between border-b border-zinc-800/80 pb-3 mb-4">
-              <div class="flex items-center gap-1.5">
-                <span class="w-2 h-2 rounded-full bg-zinc-800"></span>
-                <span class="w-2 h-2 rounded-full bg-zinc-800"></span>
-                <span class="w-2 h-2 rounded-full bg-zinc-800"></span>
-              </div>
-              <span class="text-[9px] font-mono text-zinc-500">metrics_daemon.log</span>
-            </div>
-
-            <div class="space-y-4 font-mono text-[11px]">
-              <div class="space-y-1">
-                <div class="text-[9px] text-zinc-500 uppercase tracking-wide">Short Code Interface</div>
-                <div class="text-xs font-semibold text-zinc-200">short.ly/x9K2a</div>
-              </div>
-
-              <div class="space-y-1">
-                <div class="text-[9px] text-zinc-500 uppercase tracking-wide">Destination Address</div>
-                <div class="text-zinc-400 break-all">github.com/company/project</div>
-              </div>
-
-              <div class="grid grid-cols-2 gap-4 border-t border-zinc-800/60 pt-3">
-                <div class="space-y-0.5">
-                  <div class="text-[9px] text-zinc-500 uppercase tracking-wide">Requests Logged</div>
-                  <div class="text-xs font-bold text-zinc-100">24,891</div>
-                </div>
-                <div class="space-y-0.5">
-                  <div class="text-[9px] text-zinc-500 uppercase tracking-wide">Latency SLA</div>
-                  <div class="text-xs font-bold text-zinc-300 flex items-center gap-1">
-                    <Zap class="w-3 h-3 text-zinc-500" />
-                    12ms
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-
-      </div>
-
-      {/* URL Shortener Box (Command-style) */}
-      <div class="max-w-2xl mx-auto">
-        <div class="saas-card bg-[#121214] border-zinc-800 p-5 sm:p-6 shadow-xl">
-          <form onSubmit={handleSubmit} class="space-y-4">
-            <div class="space-y-1.5 text-left">
-              <label class="text-[9px] font-mono uppercase tracking-wider text-zinc-500">
-                Destination URL
-              </label>
-              <div class="flex flex-col sm:flex-row gap-2">
+        {/* Right Side: Mockup Link Shortener Widget */}
+        <div class="lg:col-span-6">
+          <div class="saas-card bg-[#121624] border-zinc-800/80 p-6 sm:p-8 shadow-2xl relative overflow-hidden">
+            <form onSubmit={handleSubmit} class="space-y-4">
+              <div class="relative flex items-center border border-zinc-800 bg-[#0b0e17] rounded-xl px-4 py-3 focus-within:border-zinc-700/80 transition-all">
+                <Link2 class="w-4 h-4 text-zinc-500 mr-3 flex-shrink-0" />
                 <input
                   type="text"
-                  required
-                  placeholder="https://github.com/Dinesh3906/url_shortner"
+                  placeholder="Paste your long URL"
                   value={originalUrl}
                   onChange={(e) => {
                     setOriginalUrl(e.target.value);
                     setError('');
                   }}
-                  class="flex-1 saas-input !py-2.5 !px-3.5 focus:border-zinc-500 text-xs"
+                  class="bg-transparent border-0 p-0 text-white placeholder-zinc-500 text-sm focus:outline-none focus:ring-0 w-full"
                 />
                 <button
                   type="submit"
                   disabled={loading}
-                  class="saas-btn-primary !py-2.5 px-4 font-mono text-xs flex items-center justify-center gap-1.5 shrink-0"
+                  class="ml-3 px-5 py-2 bg-[#4f46e5] hover:bg-[#5f56f3] text-white font-semibold text-xs rounded-lg transition-colors flex items-center gap-1.5 flex-shrink-0 disabled:opacity-50"
                 >
                   {loading ? (
-                    <div class="w-4 h-4 border-2 border-zinc-950/30 border-t-zinc-950 rounded-full animate-spin"></div>
+                    <div class="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   ) : (
                     <>
                       Shorten
@@ -194,156 +189,267 @@ const LandingPage = () => {
                   )}
                 </button>
               </div>
-            </div>
+              <p class="text-[10px] text-zinc-500 font-mono select-all break-all px-1 leading-normal">
+                https://www.example.com/very/long/path?with=query&params=true
+              </p>
 
-            {/* Optional Expiry Picker */}
-            <div class="flex items-center gap-3 pt-1 text-[9px] font-mono text-zinc-500">
-              <span class="flex items-center gap-1">
-                <Clock class="w-3.5 h-3.5" />
-                Expiration Date (Optional):
-              </span>
-              <input
-                type="datetime-local"
-                value={expiresAt}
-                onChange={(e) => setExpiresAt(e.target.value)}
-                class="bg-black/60 border border-zinc-800 text-zinc-350 rounded-md px-2 py-0.5 focus:outline-none text-[9px] cursor-pointer"
-              />
-            </div>
-          </form>
+              {/* Collapsible Expiration Picker */}
+              <div class="px-1">
+                {!showExpiry ? (
+                  <button
+                    type="button"
+                    onClick={() => setShowExpiry(true)}
+                    class="text-[10px] text-zinc-500 hover:text-zinc-400 flex items-center gap-1.5 transition-colors font-medium animate-fade-in"
+                  >
+                    <Clock class="w-3 h-3" />
+                    Add link expiration date
+                  </button>
+                ) : (
+                  <div class="flex items-center gap-2 text-[10px] text-zinc-400">
+                    <Clock class="w-3 h-3 text-zinc-500" />
+                    <span>Expires:</span>
+                    <input
+                      type="datetime-local"
+                      value={expiresAt}
+                      onChange={(e) => setExpiresAt(e.target.value)}
+                      class="bg-[#0b0e17] border border-zinc-800 text-zinc-300 rounded-md px-2 py-0.5 focus:outline-none text-[9px] cursor-pointer"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setShowExpiry(false);
+                        setExpiresAt('');
+                      }}
+                      class="text-zinc-500 hover:text-zinc-350 ml-1 text-xs"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                )}
+              </div>
+            </form>
 
-          {error && (
-            <div class="mt-4 p-3 bg-rose-950/10 border border-rose-500/10 text-rose-400 rounded text-[11px] text-left font-mono">
-              Error: {error}
-            </div>
-          )}
+            {error && (
+              <div class="mt-4 p-3 bg-rose-500/5 border border-rose-500/10 text-rose-450 rounded-lg text-xs text-left font-mono">
+                {error}
+              </div>
+            )}
 
-          {/* Results Output with actions */}
-          <AnimatePresence>
-            {shortenedResult && (
-              <motion.div
-                initial={{ opacity: 0, y: 5 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -5 }}
-                class="mt-6 p-4 bg-black/40 border border-zinc-800 rounded space-y-4 text-left font-mono text-[11px]"
-              >
-                <div class="flex items-center justify-between">
-                  <span class="text-[9px] text-zinc-400 uppercase tracking-wider font-semibold">Short URL Output</span>
-                  {shortenedResult.expiresAt && (
-                    <span class="text-[9px] text-zinc-500">Expires: {new Date(shortenedResult.expiresAt).toLocaleDateString()}</span>
+            {/* Horizontal Separator */}
+            <div class="border-t border-zinc-800/80 my-6"></div>
+
+            {/* Output Display Container */}
+            <div class="space-y-4 text-left">
+              <div class="text-[10px] font-semibold text-zinc-500 uppercase tracking-wider">
+                Your short link
+              </div>
+
+              <div class="flex items-center justify-between bg-[#0b0e17] border border-zinc-800/80 rounded-xl p-3 sm:p-4 gap-3">
+                <div class="flex items-center gap-2 min-w-0">
+                  <span class="text-sm font-semibold text-zinc-200 truncate select-all">
+                    {displayedShortUrl}
+                  </span>
+                  {copied && (
+                    <span class="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-semibold bg-emerald-500/10 border border-emerald-500/20 text-emerald-450 shrink-0">
+                      Copied!
+                    </span>
                   )}
                 </div>
 
-                <div class="flex items-center justify-between gap-3 bg-black/60 border border-zinc-800 rounded p-3">
-                  <span class="text-zinc-200 select-all font-semibold break-all text-xs">
-                    {shortenedResult.shortUrl}
-                  </span>
-                  
-                  <div class="flex items-center gap-1.5 shrink-0">
-                    {/* Copy */}
-                    <button
-                      onClick={handleCopy}
-                      class="p-2 bg-zinc-100 hover:bg-zinc-200 text-zinc-950 rounded transition-colors flex items-center justify-center"
-                      title="Copy Link"
-                    >
-                      {copied ? <Check class="w-3.5 h-3.5 text-emerald-600" /> : <Copy class="w-3.5 h-3.5" />}
-                    </button>
-                    {/* QR Code */}
-                    <button
-                      onClick={() => setShowQr(!showQr)}
-                      class={`p-2 rounded transition-colors flex items-center justify-center border ${
-                        showQr ? 'bg-zinc-800 border-zinc-700 text-zinc-100' : 'bg-zinc-900 border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800'
-                      }`}
-                      title="QR Code"
-                    >
-                      <QrCode class="w-3.5 h-3.5" />
-                    </button>
-                    {/* Analytics */}
-                    {isAuthenticated && (
-                      <button
-                        onClick={() => navigate(`/analytics/${shortenedResult._id}`)}
-                        class="p-2 bg-zinc-900 border border-zinc-800 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800 rounded transition-colors flex items-center justify-center"
-                        title="View Analytics"
-                      >
-                        <ArrowUpRight class="w-3.5 h-3.5" />
-                      </button>
-                    )}
-                  </div>
-                </div>
-
-                {/* QR Code Modal/Drawer */}
-                {showQr && (
-                  <motion.div 
-                    initial={{ scale: 0.98, opacity: 0 }}
-                    animate={{ scale: 1, opacity: 1 }}
-                    class="p-4 bg-zinc-900 border border-zinc-800 rounded flex flex-col items-center justify-center gap-3 text-center"
+                <div class="flex items-center gap-1.5 shrink-0">
+                  <button
+                    type="button"
+                    onClick={handleCopy}
+                    class="p-2 bg-[#121624] hover:bg-zinc-850 text-zinc-400 hover:text-white rounded-lg border border-zinc-800/80 transition-colors"
+                    title="Copy URL"
                   >
-                    <div class="bg-white p-2 rounded">
-                      <img 
-                        src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(shortenedResult.shortUrl)}`} 
-                        alt="Short link QR code" 
-                        class="w-32 h-32"
-                      />
+                    <Copy class="w-3.5 h-3.5" />
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={() => setShowQr(!showQr)}
+                    class={`p-2 rounded-lg border transition-colors ${
+                      showQr 
+                        ? 'bg-zinc-800 border-zinc-700 text-white' 
+                        : 'bg-[#121624] border-zinc-800/80 text-zinc-400 hover:text-white hover:bg-zinc-850'
+                    }`}
+                    title="QR Code"
+                  >
+                    <QrCode class="w-3.5 h-3.5" />
+                  </button>
+                  
+                  <button
+                    type="button"
+                    onClick={handleShare}
+                    class="p-2 bg-[#121624] hover:bg-zinc-850 text-zinc-400 hover:text-white rounded-lg border border-zinc-800/80 transition-colors"
+                    title="Share link"
+                  >
+                    <Share2 class="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              </div>
+
+              {/* Expanded QR Code Display */}
+              <AnimatePresence>
+                {showQr && (
+                  <motion.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: 'auto' }}
+                    exit={{ opacity: 0, height: 0 }}
+                    class="overflow-hidden"
+                  >
+                    <div class="mt-2 p-4 bg-[#0b0e17] border border-zinc-800/80 rounded-xl flex flex-col items-center justify-center gap-3 text-center">
+                      <div class="bg-white p-2 rounded-lg">
+                        <img
+                          src={`https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(
+                            shortenedResult ? shortenedResult.shortUrl : 'https://short.link/a8f3Kp'
+                          )}`}
+                          alt="Short link QR code"
+                          class="w-28 h-28"
+                        />
+                      </div>
+                      <span class="text-[9px] text-zinc-500 font-mono">Scan QR image to resolve shortened URL</span>
                     </div>
-                    <span class="text-[9px] text-zinc-500">Scan QR image to resolve shortened URL</span>
                   </motion.div>
                 )}
+              </AnimatePresence>
 
-                {!isAuthenticated && (
-                  <div class="text-[9px] text-zinc-500 border-t border-zinc-800/80 pt-2">
-                    Note: <Link to="/signup" class="text-zinc-300 underline hover:text-white">Sign up</Link> to save this link permanently, customize expiration times, and unlock traffic logs.
-                  </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
+              {/* Stats Row */}
+              <div class="grid grid-cols-2 gap-4 pt-2">
+                <div>
+                  <div class="text-[10px] text-zinc-500 uppercase tracking-wider mb-0.5">Clicks</div>
+                  <div class="text-sm font-bold text-zinc-200">{displayedClicks}</div>
+                </div>
+                <div>
+                  <div class="text-[10px] text-zinc-500 uppercase tracking-wider mb-0.5">Created</div>
+                  <div class="text-sm font-bold text-zinc-200">{displayedCreated}</div>
+                </div>
+              </div>
+
+              {/* Dashboard Note for Anon Users */}
+              {!isAuthenticated && !shortenedResult && (
+                <div class="text-[10px] text-zinc-500 border-t border-zinc-800/50 pt-3">
+                  Note: <Link to="/signup" class="text-zinc-400 hover:text-white underline">Sign up</Link> to save this link permanently, customize links, and unlock deep traffic logs.
+                </div>
+              )}
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      {/* Feature Section: Redesigned Horizontal Card */}
+      <div class="w-full bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-6 md:p-8">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6 md:gap-4 md:divide-x md:divide-zinc-800/50">
+          
+          {/* Feature 1 */}
+          <div class="flex gap-4 md:px-4">
+            <div class="w-8 h-8 rounded-lg bg-[#10b981]/10 border border-[#10b981]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <Zap class="w-4 h-4 text-[#10b981]" />
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-white mb-1 font-sans">Blazing fast</h4>
+              <p class="text-[11px] text-zinc-400 leading-normal">Sub-15ms redirects powered by edge caching.</p>
+            </div>
+          </div>
+          
+          {/* Feature 2 */}
+          <div class="flex gap-4 md:px-4">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <Shield class="w-4 h-4 text-indigo-400" />
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-white mb-1 font-sans">Reliable</h4>
+              <p class="text-[11px] text-zinc-400 leading-normal">99.99% uptime with global infrastructure.</p>
+            </div>
+          </div>
+          
+          {/* Feature 3 */}
+          <div class="flex gap-4 md:px-4">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center flex-shrink-0 mt-0.5">
+              <BarChart3 class="w-4 h-4 text-indigo-400" />
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-white mb-1 font-sans">Insightful analytics</h4>
+              <p class="text-[11px] text-zinc-400 leading-normal">Track clicks, locations, devices, and more.</p>
+            </div>
+          </div>
+          
+          {/* Feature 4 */}
+          <div class="flex gap-4 md:px-4">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center flex-shrink-0 mt-0.5 font-mono text-xs font-bold text-[#4f46e5]">
+              &lt;/&gt;
+            </div>
+            <div>
+              <h4 class="text-xs font-bold text-white mb-1 font-sans">Developer first</h4>
+              <p class="text-[11px] text-zinc-400 leading-normal">Simple API, SDKs, and webhooks.</p>
+            </div>
+          </div>
+          
         </div>
       </div>
 
-      {/* Feature Section: Redesigned Cards */}
-      <div class="space-y-12">
-        <div class="text-center max-w-2xl mx-auto space-y-2">
-          <h2 class="text-xl font-bold tracking-tight text-white font-sans sm:text-2xl">
-            API System Architecture
+      {/* Built to handle scale Section */}
+      <div class="space-y-8 pt-4">
+        <div class="text-center space-y-2">
+          <div class="text-[9px] font-bold text-zinc-500 uppercase tracking-widest">
+            Trusted by Developers
+          </div>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">
+            Built to handle scale
           </h2>
-          <p class="text-zinc-500 text-[10px] font-mono uppercase tracking-wide">
-            Redirection SLA tracking and database log metrics.
-          </p>
         </div>
 
-        <div class="grid md:grid-cols-3 gap-6">
-          {[
-            {
-              icon: <Zap class="w-4 h-4 text-zinc-400" />,
-              title: 'Sub-15ms Latency',
-              desc: 'Cache resolution bypasses primary databases. Active routes are served from RAM-based cache memory pools.'
-            },
-            {
-              icon: <BarChart3 class="w-4 h-4 text-zinc-400" />,
-              title: 'Asynchronous Analytics',
-              desc: 'Click logging, user-agent parsing, and database counter mutations are run in a non-blocking queue.'
-            },
-            {
-              icon: <ShieldCheck class="w-4 h-4 text-zinc-400" />,
-              title: 'API Authorization',
-              desc: 'Secure JWT authentication schemas, API tokens for command line integrations, and client rate limits.'
-            }
-          ].map((feat, idx) => (
-            <motion.div 
-              key={idx} 
-              whileHover={{ y: -1 }}
-              class="saas-card bg-[#121214] border-zinc-800 hover:border-zinc-700/80 p-5 text-left flex flex-col justify-between"
-            >
-              <div class="w-8 h-8 rounded bg-zinc-900 border border-zinc-800 flex items-center justify-center mb-4">
-                {feat.icon}
-              </div>
-              <div class="space-y-1.5">
-                <h3 class="text-xs font-semibold text-zinc-200 font-mono">{feat.title}</h3>
-                <p class="text-zinc-400 text-[11px] font-mono leading-relaxed">{feat.desc}</p>
-              </div>
-            </motion.div>
-          ))}
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          
+          {/* Stat 1 */}
+          <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
+            <div class="w-8 h-8 rounded-lg bg-[#4f46e5]/10 border border-[#4f46e5]/20 flex items-center justify-center">
+              <Link2 class="w-4 h-4 text-[#4f46e5] rotate-45" />
+            </div>
+            <div>
+              <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">+2.4B</div>
+              <div class="text-[11px] text-zinc-500 font-sans">Links created</div>
+            </div>
+          </div>
+
+          {/* Stat 2 */}
+          <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
+            <div class="w-8 h-8 rounded-lg bg-[#10b981]/10 border border-[#10b981]/20 flex items-center justify-center">
+              <BarChart3 class="w-4 h-4 text-[#10b981]" />
+            </div>
+            <div>
+              <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">+5.6B</div>
+              <div class="text-[11px] text-zinc-500 font-sans">Clicks tracked</div>
+            </div>
+          </div>
+
+          {/* Stat 3 */}
+          <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
+            <div class="w-8 h-8 rounded-lg bg-blue-505/10 border border-blue-505/20 flex items-center justify-center">
+              <Globe class="w-4 h-4 text-blue-400" />
+            </div>
+            <div>
+              <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">180+</div>
+              <div class="text-[11px] text-zinc-500 font-sans">Countries served</div>
+            </div>
+          </div>
+
+          {/* Stat 4 */}
+          <div class="bg-[#121624]/40 border border-zinc-800/80 rounded-2xl p-5 flex flex-col justify-between h-32">
+            <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
+              <Clock class="w-4 h-4 text-amber-500" />
+            </div>
+            <div>
+              <div class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">&lt;15ms</div>
+              <div class="text-[11px] text-zinc-500 font-sans">Avg. redirect time</div>
+            </div>
+          </div>
+
         </div>
       </div>
+      
     </motion.div>
   );
 };
